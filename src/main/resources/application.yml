@@ -10,4 +10,8 @@ spring:
     hibernate:
       ddl-auto: update
 
-
+application:
+  jwt:
+    tokenPrefix: "Bearer "
+    key: secretsecretsecretsecretsecretsecretsecretsecret
+    expiredDate: 14

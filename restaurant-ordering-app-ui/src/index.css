@@ -1,0 +1,14 @@
+.sliderImg {
+  height: 400px;
+}
+
+@media only screen and (max-width: 500px) {
+  .sliderImg {
+    height: 200px;
+  }
+
+  .menu-detail-card .add-to-cart-btn {
+    font-size: 8pt;
+    text-align:center;
+  }
+}

@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import {useDispatch} from "react-redux";
-import {setAuthenticated} from "../redux/actions/authActions";
+import { useDispatch } from "react-redux";
+import { setRole } from "../redux/actions/authActions";
+import axios from "axios";
+import LocalStorageService from "../localStorage/LocalStorageService";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const LoginModal = ({ show, handleClose }) => {
+  const history = useHistory();
+
+  const localStorageService = LocalStorageService.getService();
 
   const dispatch = useDispatch();
 
@@ -15,10 +22,26 @@ const LoginModal = ({ show, handleClose }) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(data);
-    dispatch(setAuthenticated());
+    try {
+      const response = await axios.post("http://localhost:8080/login", data);
+      console.log(response.headers);
+      localStorageService.setToken(response.headers);
+      console.log(localStorageService.getAuthorizationToken());
+      dispatch(setRole(response.headers.role));
+      localStorageService.setRole(response.headers.role);
+    } catch (error) {
+      console.log(error);
+    }
+
     handleClose();
+    console.log(localStorageService.getRole());
+    if (localStorageService.getRole() == "ROLE_CUSTOMER") history.push("/menu");
+    else if (localStorageService.getRole() == "ROLE_STAFF")
+      history.push("/dashboard");
+    else if (localStorageService.getRole() == "ROLE_ADMIN")
+      history.push("/add-menu");
   };
 
   return (

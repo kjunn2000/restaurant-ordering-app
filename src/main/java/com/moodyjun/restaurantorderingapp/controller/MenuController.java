@@ -1,13 +1,11 @@
 package com.moodyjun.restaurantorderingapp.controller;
 
-import com.moodyjun.restaurantorderingapp.dto.MenuDto;
-import com.moodyjun.restaurantorderingapp.entity.Menu;
+import com.moodyjun.restaurantorderingapp.model.FoodType;
+import com.moodyjun.restaurantorderingapp.model.Menu;
 import com.moodyjun.restaurantorderingapp.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
@@ -33,5 +31,15 @@ public class MenuController {
     @GetMapping("/get-all-menu")
     public List<Menu> getAllMenu(){
         return menuService.getAllMenu();
+    }
+
+    @GetMapping("/get-all-food-type")
+    public List<FoodType> getAllFoodTypes(){
+        return List.of(FoodType.values());
+    }
+
+    @GetMapping("/{menuId}")
+    public Menu getMenu(@PathVariable("menuId") int menuId){
+        return menuService.findMenuById(menuId);
     }
 }

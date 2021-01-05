@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ImageUploader from "react-images-upload";
+import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -10,8 +11,29 @@ const AddMenu = () => {
     title: "",
     description: "",
     price: 0,
+    foodType: "",
     images: [],
   });
+
+  const [foodTypes, setFoodTypes] = useState([]);
+
+  const [showAlert, setShowAlert] = useState(false);
+
+  const foodTypeControl = useRef();
+
+  const imageUploader = useRef();
+
+  useEffect(async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/menu/get-all-food-type"
+      );
+      console.log(response.data);
+      setFoodTypes(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -60,9 +82,25 @@ const AddMenu = () => {
     }
   };
 
+  const clearValue = () => {
+    setMenu({
+      title: "",
+      description: "",
+      price: 0,
+      images: [],
+    });
+    foodTypeControl.current.value = "";
+    imageUploader.current.clearPictures();
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 5000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     sendMenuDto();
+    clearValue();
   };
 
   return (
@@ -72,47 +110,77 @@ const AddMenu = () => {
         <Form onSubmit={handleSubmit} className="p-5">
           <Card.Body>
             <Form.Group controlId="formBasicTitle">
+              <Alert variant="success" show={showAlert}>
+                Successful added a new food item !
+              </Alert>
               <Form.Label>Menu Title</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="Enter title"
                 name="title"
                 onChange={handleChange}
                 className="bg-dark text-white"
+                value={menu.title}
               />
             </Form.Group>
 
             <Form.Group controlId="formBasicDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="Enter description"
                 name="description"
                 onChange={handleChange}
                 className="bg-dark text-white"
+                value={menu.description}
               />
               <Form.Text className="text-danger">
                 ** Please indicate all the ingredients. **
               </Form.Text>
             </Form.Group>
 
-            <Form.Group controlId="formBasicDescription">
+            <Form.Group controlId="formBasicPrice">
               <Form.Label>Price</Form.Label>
               <Form.Control
+                required
                 type="number"
                 placeholder="Enter description"
                 onChange={handleChange}
                 name="price"
                 className="bg-dark text-white"
+                value={menu.price}
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicPrice">
+            <Form.Group controlId="formBasicFoodType">
+              <Form.Label>Food Types</Form.Label>
+              <Form.Control
+                required
+                as="select"
+                multiple
+                className="bg-dark text-white"
+                onChange={handleChange}
+                name="foodType"
+                ref={foodTypeControl}
+              >
+                {foodTypes.map((foodType) => (
+                  <option value={foodType}>{foodType}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="formBasicImages">
               <Form.Label>Menu Images</Form.Label>
-              <ImageUploader onChange={handleImageChange} withPreview={true} />
+              <ImageUploader
+                ref={imageUploader}
+                onChange={handleImageChange}
+                withPreview={true}
+              />
             </Form.Group>
           </Card.Body>
-          <Card.Footer style={{textAlign:"right"}}>
+          <Card.Footer style={{ textAlign: "right" }}>
             <Button variant="success" type="submit" className="">
               Submit
             </Button>

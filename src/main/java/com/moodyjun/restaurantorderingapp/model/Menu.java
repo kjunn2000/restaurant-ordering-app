@@ -1,4 +1,4 @@
-package com.moodyjun.restaurantorderingapp.entity;
+package com.moodyjun.restaurantorderingapp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +20,8 @@ public class Menu {
     private String title ;
     private String description ;
     private int price ;
+    @Enumerated(EnumType.STRING)
+    private FoodType foodType;
     @ElementCollection
     private List<String> imageUrls ;
 }

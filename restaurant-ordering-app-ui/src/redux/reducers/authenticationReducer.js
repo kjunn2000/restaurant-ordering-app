@@ -1,16 +1,19 @@
-import { SET_AUTHENTICATED } from "../actionTypes";
+import { setRole } from "../actions/authActions";
+import { LOG_OUT, SET_ROLE } from "../actionTypes";
 
 const initialState = {
-    isAuthenticated: false
-}
+  role: localStorage.getItem("role") || ""
+};
 
-const authenticationReducer = (state=initialState,action) => {
-    switch (action.type) {
-        case SET_AUTHENTICATED: 
-            return {...state,isAuthenticated:!state.isAuthenticated};
-        default : 
-            return state ; 
-    }
-}
+const authenticationReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_ROLE:
+      return { ...state, role: action.role };
+    case LOG_OUT:
+      return { ...state, role: action.role };
+    default:
+      return state;
+  }
+};
 
-export default authenticationReducer
+export default authenticationReducer;

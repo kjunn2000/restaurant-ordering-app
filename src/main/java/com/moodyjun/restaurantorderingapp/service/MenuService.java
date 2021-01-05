@@ -1,6 +1,6 @@
 package com.moodyjun.restaurantorderingapp.service;
 
-import com.moodyjun.restaurantorderingapp.entity.Menu;
+import com.moodyjun.restaurantorderingapp.model.Menu;
 import com.moodyjun.restaurantorderingapp.repositroy.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

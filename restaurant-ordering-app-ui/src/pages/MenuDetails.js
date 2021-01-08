@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,10 +13,11 @@ const MenuDetails = (props) => {
   const [data, setData] = useState({});
   const role = useSelector((state) => state.auth.role);
   const [showAlert, setShowAlert] = useState(false);
-  const [order, setOrder] = useState({
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [cartItem, setCartItem] = useState({
     quantity: 1,
+    comment: "N/A",
   });
-  // const user = useSelector(state=>state.user);
 
   useEffect(async () => {
     try {
@@ -33,7 +34,7 @@ const MenuDetails = (props) => {
   const handleChange = (e) => {
     const value = e.target.value;
     const name = e.target.name;
-    setOrder({ ...order, [name]: value });
+    setCartItem({ ...cartItem, [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -45,10 +46,22 @@ const MenuDetails = (props) => {
         setShowAlert(false);
       }, 5000);
     }
-    // const dto = {
-    //   userId:user.userId,
-    //   menuId,
-    // };
+    const dto = {
+      menuId,
+      quantity: cartItem.quantity,
+      comment: cartItem.comment,
+    };
+    console.log(dto);
+    axios
+      .post("http://localhost:8080/api/user/add-to-cart", dto)
+      .then((response) => {
+        console.log(response);
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 5000);
+      })
+      .catch((error) => console.log(error));
   };
 
   return loading ? (
@@ -59,8 +72,11 @@ const MenuDetails = (props) => {
         <Alert className="text-center" variant="danger" show={showAlert}>
           *** Please log in to the system to add to cart. ***
         </Alert>
+        <Alert className="text-center" variant="success" show={showSuccess}>
+          *** Successful added to the cart ***
+        </Alert>
         <Card.Body>
-          <Card.Title className="border-bottom border-secondary pb-3 text-center">
+          <Card.Title className="bcartitem-bottom bcartitem-secondary pb-3 text-center">
             {data.foodType}
           </Card.Title>
           <Row className="p-4">
@@ -74,6 +90,7 @@ const MenuDetails = (props) => {
               >
                 {data.imageUrls.map((image) => (
                   <Image
+                    id={image}
                     style={{ objectFit: "cover" }}
                     className="sliderImg w-100 mh-100 mw-100 rounded"
                     cloudName="kjunn2000"
@@ -85,12 +102,12 @@ const MenuDetails = (props) => {
             <div className="col-md-4 col-xs-12">
               <Card body className="menu-detail-card text-secondary p-3">
                 <Form>
-                  <Card.Title className="font-bold text-dark border-bottom border-secondary pb-3 text-center">
+                  <Card.Title className="font-bold text-dark bcartitem-bottom bcartitem-secondary pb-3 text-center">
                     {data.title}
                   </Card.Title>
                   <Row className="pb-3">
                     <Col>
-                      <Card.Text style={{ height: "100px" }}>
+                      <Card.Text style={{ height: "50px" }}>
                         <p>{data.description}</p>
                       </Card.Text>
                     </Col>
@@ -102,7 +119,7 @@ const MenuDetails = (props) => {
                         <Form.Label>Price: </Form.Label>
                         <Form.Control
                           className="text-right"
-                          readOnly="true"
+                          readOnly={true}
                           type="text"
                           placeholder="price"
                           name="price"
@@ -116,24 +133,24 @@ const MenuDetails = (props) => {
                           type="number"
                           placeholder="quantity"
                           name="quantity"
-                          value={order.quantity}
+                          value={cartItem.quantity}
                           onChange={handleChange}
                         />
                       </Form.Group>
-                      {/* <Form.Group>
+                      <Form.Group>
                         <Form.Label>Comment:</Form.Label>
                         <Form.Control
                           type="text"
                           placeholder="Enter comment:"
                           name="comment"
-                          value={order.comment}
+                          value={cartItem.comment}
                           onChange={handleChange}
                         />
                         <Form.Text className="text-muted">
                           ** Parsley, Chili, Pineaple, Celery **
                           <br />
                         </Form.Text>
-                      </Form.Group> */}
+                      </Form.Group>
                     </Col>
                   </Row>
 

@@ -1,60 +1,38 @@
 package com.moodyjun.restaurantorderingapp.service;
 
+import com.moodyjun.restaurantorderingapp.dto.CartDto;
+import com.moodyjun.restaurantorderingapp.dto.UpdateCartDto;
 import com.moodyjun.restaurantorderingapp.model.AppUser;
 import com.moodyjun.restaurantorderingapp.model.CartItem;
 import com.moodyjun.restaurantorderingapp.model.Menu;
-import com.moodyjun.restaurantorderingapp.model.MyUserDetails;
 import com.moodyjun.restaurantorderingapp.repositroy.AppUserRepository;
 import com.moodyjun.restaurantorderingapp.repositroy.CartItemRepository;
-import com.moodyjun.restaurantorderingapp.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CartService {
 
     private AppUserRepository appUserRepository;
     private CartItemRepository cartItemRepository;
     private MenuService menuService;
-    PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserDetailsService(AppUserRepository appUserRepository, CartItemRepository cartItemRepository, MenuService menuService, PasswordEncoder passwordEncoder) {
+    public CartService(AppUserRepository appUserRepository, CartItemRepository cartItemRepository, MenuService menuService) {
         this.appUserRepository = appUserRepository;
         this.cartItemRepository = cartItemRepository;
         this.menuService = menuService;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepository.findAppUserByUsername(username);
-        if(appUser==null) return null;
-        return new MyUserDetails(appUser.getUsername(),appUser.getPassword(),appUser.getRole().getGrantedAuthorities());
-    }
-
-    public int createAppUser(String username, String password, String email){
-        UserDetails userDetails = loadUserByUsername(username);
-        if(userDetails!=null) return -1;
-        AppUser appUser = appUserRepository.save(new AppUser(UUID.randomUUID(), username, passwordEncoder.encode(password), email, UserRole.CUSTOMER,new ArrayList(),new ArrayList()));
-        return 1;
-    }
-
-    public AppUser findUserByUserId(String userId){
-        Optional<AppUser> user = appUserRepository.findById(UUID.fromString(userId));
-        return user.orElse(null);
-    }
-
-    public void addToCart(int menuId, int quantity,String comment){
+    public void addToCart(int menuId, int quantity, String comment){
         Menu menu = menuService.findMenuById(menuId);
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser user = appUserRepository.findAppUserByUsername(username);
@@ -72,5 +50,32 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     }
 
+    public void deleteCart(UUID cartItemId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object credentials = auth.getCredentials();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserRepository.findAppUserByUsername(username);
+        System.out.println(user.getCart().size());
+
+        List<CartItem> newCart = user.getCart().stream()
+                .filter(cartItem -> !(cartItem.getCartItemId().equals(cartItemId)))
+                .collect(Collectors.toList());
+        System.out.println(user.getCart().size());
+        user.setCart(newCart);
+        appUserRepository.save(user);
+        cartItemRepository.deleteById(cartItemId);
+    }
+
+    public void updateCart(List<UpdateCartDto> updateCartDtoList){
+
+        for (UpdateCartDto updateCartDto : updateCartDtoList){
+            CartItem cartItem = cartItemRepository.findById(UUID.fromString(updateCartDto.getCartItemId())).orElse(null);
+            assert cartItem != null;
+            cartItem.setQuantity(updateCartDto.getQuantity());
+            cartItem.setComment(updateCartDto.getComment());
+            cartItemRepository.save(cartItem);
+        }
+    }
 
 }

@@ -1,9 +1,7 @@
 package com.moodyjun.restaurantorderingapp.model;
 
 import com.moodyjun.restaurantorderingapp.security.UserRole;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -12,7 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name="appUser")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppUser {
@@ -25,7 +24,7 @@ public class AppUser {
     @Enumerated
     private UserRole role;
     @OneToMany
-    private List<Menu> cart;
-    @OneToMany
+    private List<CartItem> cart;
+    @OneToMany(mappedBy = "appUser")
     private List<Order> orderList;
 }

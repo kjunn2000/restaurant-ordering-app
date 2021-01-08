@@ -1,5 +1,4 @@
-import { setRole } from "../actions/authActions";
-import { LOG_OUT, SET_ROLE } from "../actionTypes";
+ import { LOG_OUT, SET_ROLE } from "../actionTypes";
 
 const initialState = {
   role: localStorage.getItem("role") || ""

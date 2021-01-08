@@ -26,11 +26,10 @@ const LoginModal = ({ show, handleClose }) => {
     console.log(data);
     try {
       const response = await axios.post("http://localhost:8080/login", data);
-      console.log(response.headers);
       localStorageService.setToken(response.headers);
       console.log(localStorageService.getAuthorizationToken());
-      dispatch(setRole(response.headers.role));
-      localStorageService.setRole(response.headers.role);
+      dispatch(setRole(response.data.role));
+      localStorageService.setRole(response.data.role);
     } catch (error) {
       console.log(error);
     }

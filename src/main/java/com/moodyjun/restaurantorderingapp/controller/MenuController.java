@@ -4,6 +4,7 @@ import com.moodyjun.restaurantorderingapp.model.FoodType;
 import com.moodyjun.restaurantorderingapp.model.Menu;
 import com.moodyjun.restaurantorderingapp.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class MenuController {
 
     @GetMapping("/get-all-menu")
     public List<Menu> getAllMenu(){
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return menuService.getAllMenu();
     }
 

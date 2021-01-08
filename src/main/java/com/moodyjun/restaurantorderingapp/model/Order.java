@@ -1,10 +1,13 @@
 package com.moodyjun.restaurantorderingapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +17,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderId")
 public class Order {
 
     @Id
@@ -25,6 +29,6 @@ public class Order {
     private OrderStatus orderStatus;
     private LocalDateTime orderTime;
     @OneToMany
-    private List<Menu> orderItemList;
+    private List<CartItem> orderItemList;
 
 }

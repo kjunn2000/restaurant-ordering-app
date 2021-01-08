@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
+public class CartDto {
 
-    private int totalPrice;
-
+    private int menuId ;
+    private int quantity;
+    private String comment;
 }

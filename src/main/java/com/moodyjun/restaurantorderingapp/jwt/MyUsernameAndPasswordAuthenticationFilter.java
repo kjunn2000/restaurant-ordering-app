@@ -1,6 +1,7 @@
 package com.moodyjun.restaurantorderingapp.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moodyjun.restaurantorderingapp.model.MyUserDetails;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
@@ -64,6 +66,11 @@ public class MyUsernameAndPasswordAuthenticationFilter extends UsernamePasswordA
                 .findFirst()
                 .orElse(null))
                 .toString();
-        response.addHeader("role",role);
+        System.out.println(authResult.getPrincipal());
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        String jsonStr = String.format("{\"role\": \"%s\"}",role);
+        out.print(jsonStr);
+        out.flush();
     }
 }

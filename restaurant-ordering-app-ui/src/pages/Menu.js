@@ -67,33 +67,7 @@ const Menu = () => {
     ));
   };
 
-  // const renderMenu = menu.map((eachMenu) => {
-  //   console.log(eachMenu);
-  //   return (
-  //     <Col key={eachMenu.menuId} className="d-flex justify-content-center pb-5">
-  //       <Card style={{ width: "18rem" }}>
-  //         <Image
-  //           height="190px"
-  //           cloudName="kjunn2000"
-  //           publicId={eachMenu.imageUrls[0]}
-  //         />
-
-  //         <Card.Body>
-  //           <Card.Title className="border-bottom border-secondary pb-3 text-center">
-  //             {eachMenu.title}
-  //           </Card.Title>
-  //           <Card.Text>{eachMenu.description}</Card.Text>
-  //           <Card.Text>RM {eachMenu.price}</Card.Text>
-
-  //           <ButtonGroup className="float-right" aria-label="Basic example">
-  //             <Button variant="info" onClick={()=>history.push(`/menu/${eachMenu.menuId}`)}>View</Button>
-  //             <Button variant="success">AddToCart</Button>
-  //           </ButtonGroup>
-  //         </Card.Body>
-  //       </Card>
-  //     </Col>
-  //   );
-  // });
+  
 
   return (
     <div>

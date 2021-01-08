@@ -1,16 +1,16 @@
 package com.moodyjun.restaurantorderingapp.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
+public class UpdateCartDto {
 
-    private int totalPrice;
-
+    private String cartItemId;
+    private int quantity;
+    private String comment;
 }

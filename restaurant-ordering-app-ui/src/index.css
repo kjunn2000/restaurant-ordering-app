@@ -2,6 +2,14 @@
   height: 400px;
 }
 
+.deleteBtn {
+  transition : 0.3s all ease-in-out;
+}
+
+.deleteBtn:hover {
+  transform: scale(0.8);
+}
+
 @media only screen and (max-width: 500px) {
   .sliderImg {
     height: 200px;
@@ -9,6 +17,6 @@
 
   .menu-detail-card .add-to-cart-btn {
     font-size: 8pt;
-    text-align:center;
+    text-align: center;
   }
 }

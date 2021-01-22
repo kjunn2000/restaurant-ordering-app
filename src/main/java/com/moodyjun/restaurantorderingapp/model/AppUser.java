@@ -1,5 +1,8 @@
 package com.moodyjun.restaurantorderingapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.moodyjun.restaurantorderingapp.security.UserRole;
 import lombok.*;
 
@@ -14,6 +17,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
 public class AppUser {
 
     @Id
@@ -25,6 +29,7 @@ public class AppUser {
     private UserRole role;
     @OneToMany
     private List<CartItem> cart;
+    @JsonIgnore
     @OneToMany(mappedBy = "appUser")
     private List<Order> orderList;
 }

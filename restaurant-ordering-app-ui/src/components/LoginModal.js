@@ -4,10 +4,12 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
 import { setRole } from "../redux/actions/authActions";
+import { setCartItems, setOrders } from "../redux/actions/userActions";
 import axios from "axios";
 import LocalStorageService from "../localStorage/LocalStorageService";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ROLE_CUSTOMER } from "../auth/userRole";
 
 const LoginModal = ({ show, handleClose }) => {
   const history = useHistory();
@@ -27,9 +29,20 @@ const LoginModal = ({ show, handleClose }) => {
     try {
       const response = await axios.post("http://localhost:8080/login", data);
       localStorageService.setToken(response.headers);
-      console.log(localStorageService.getAuthorizationToken());
-      dispatch(setRole(response.data.role));
-      localStorageService.setRole(response.data.role);
+      const role = response.data.role;
+      dispatch(setRole(role));
+      localStorageService.setRole(role);
+      if (role == ROLE_CUSTOMER) {
+        const cartRes = await axios.get(
+          "http://localhost:8080/api/user/get-cart"
+        );
+        dispatch(setCartItems(cartRes.data));
+        const orderRes = await axios.get(
+          "http://localhost:8080/api/order/get-all-order"
+        );
+        console.log(orderRes);
+        dispatch(setOrders(orderRes.data));
+      }
     } catch (error) {
       console.log(error);
     }

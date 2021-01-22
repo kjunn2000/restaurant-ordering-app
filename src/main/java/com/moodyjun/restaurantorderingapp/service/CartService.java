@@ -32,7 +32,7 @@ public class CartService {
         this.menuService = menuService;
     }
 
-    public void addToCart(int menuId, int quantity, String comment){
+    public CartItem addToCart(int menuId, int quantity, String comment){
         Menu menu = menuService.findMenuById(menuId);
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser user = appUserRepository.findAppUserByUsername(username);
@@ -40,6 +40,7 @@ public class CartService {
         cartItemRepository.save(cartItem);
         user.getCart().add(cartItem) ;
         appUserRepository.save(user);
+        return cartItem;
     }
 
     public List<CartItem> getCart(){

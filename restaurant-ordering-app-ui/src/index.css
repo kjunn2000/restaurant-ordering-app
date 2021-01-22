@@ -3,7 +3,7 @@
 }
 
 .deleteBtn {
-  transition : 0.3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
 }
 
 .deleteBtn:hover {
@@ -19,4 +19,46 @@
     font-size: 8pt;
     text-align: center;
   }
+}
+/* 
+.nav-item:hover {
+  font-size: 30px !important;
+  border-radius: 5px !important;
+}
+
+.nav-item > .active {
+  background-color: silver !important;
+  font-size: 30px !important;
+  border-radius: 5px !important;
+}
+
+.navlink {
+  color: black;
+}
+
+.navlink:hover {
+  color: rgb(65, 55, 65) !important;
+} */
+
+.cardtop {
+  border: 0px !important;
+  background-color: transparent !important;
+}
+
+.cardmid {
+  border-radius: 0%;
+  border-top-color: silver !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  background-color: transparent !important;
+}
+
+.cardend {
+  border-radius: 0%;
+  border-top-color: silver !important;
+  border-bottom-color: silver !important;
+  border-left: none !important;
+  border-right: none !important;
+  background-color: transparent !important;
 }

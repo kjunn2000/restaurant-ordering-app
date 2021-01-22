@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setCartItems } from "../redux/actions/userActions";
+import { setCartItems, addOrder } from "../redux/actions/userActions";
 import {
   Container,
   Row,
@@ -14,23 +14,24 @@ import {
 import { Image } from "cloudinary-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const [showSuccess, setShowSuccess] = useState(false);
-
   const [totalPrice, setTotalPrice] = useState(0);
+  const history = useHistory();
 
   useEffect(async () => {
     try {
-      const response = await axios.get(
+      const cartRes = await axios.get(
         "http://localhost:8080/api/user/get-cart"
       );
-      setCart(response.data);
-      dispatch(setCartItems(response.data));
-      calculateTotalPrice(response.data);
+      dispatch(setCartItems(cartRes.data));
+      setCart(cartRes.data);
+      calculateTotalPrice(cartRes.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -40,7 +41,11 @@ const Cart = () => {
   const calculateTotalPrice = (cart) => {
     var total = 0;
     cart.map((each) => {
-      total = total + each.menuItem.price * each.quantity;
+      if (each.menuItem.promotionPrice != 0) {
+        total = total + each.menuItem.promotionPrice * each.quantity;
+      } else {
+        total = total + each.menuItem.price * each.quantity;
+      }
     });
     setTotalPrice(total);
   };
@@ -56,18 +61,21 @@ const Cart = () => {
     });
 
     setCart(newCart);
+
     if (attribute == "quantity") calculateTotalPrice(newCart);
   };
 
   const handleDelete = (cartItemId) => {
     const newCart = cart.filter((each) => each.cartItemId !== cartItemId);
     setCart(newCart);
+    dispatch(setCartItems(newCart));
     axios.delete(`http://localhost:8080/api/user/delete-cart/${cartItemId}`);
     calculateTotalPrice(newCart);
   };
 
-  const saveToDB = (e) => {
+  const handleBlur = (e) => {
     e.preventDefault();
+    dispatch(setCartItems(cart));
     const dto = [];
     cart.map((each) => {
       console.log(each);
@@ -92,18 +100,21 @@ const Cart = () => {
     axios
       .post("http://localhost:8080/api/order/place-order", dto)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
+        dispatch(addOrder(response.data));
         clearAll();
         setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
         }, 5000);
+        history.push("/order");
       })
       .catch((error) => console.log(error));
   };
 
   const clearAll = () => {
     setCart([]);
+    dispatch(setCartItems([]));
     setTotalPrice(0);
   };
 
@@ -123,6 +134,15 @@ const Cart = () => {
         <Col className="col-md-3">
           <Card.Body>
             <Card.Title className="border-bottom border-secondary pb-3 B">
+              {eachCartItem.menuItem.promotionPrice == 0 ? (
+                ""
+              ) : (
+                <Image
+                  height="50px"
+                  cloudName="kjunn2000"
+                  publicId="https://res.cloudinary.com/kjunn2000/image/upload/v1611300577/restaurant-ordering-app-cloud-image/specialoffer_e7dkzm.gif"
+                />
+              )}
               {eachCartItem.menuItem.title}
             </Card.Title>
             <Card.Text>{eachCartItem.menuItem.description}</Card.Text>
@@ -133,14 +153,19 @@ const Cart = () => {
             <Col>
               <Form.Group className="d-flex">
                 <Form.Label className="col-5">Price: </Form.Label>
-                <Form.Control
-                  className="text-right col-7"
-                  readOnly={true}
-                  type="text"
-                  placeholder="price"
-                  name="price"
-                  value={"RM " + eachCartItem.menuItem.price}
-                />
+                <Col className="text-right">
+                  {" "}
+                  {eachCartItem.menuItem.promotionPrice == 0 ? (
+                    <p>RM {eachCartItem.menuItem.price}</p>
+                  ) : (
+                    <p>
+                      <s>RM {eachCartItem.menuItem.price} </s>
+                      <h5 className="d-inline text-danger">
+                        RM {eachCartItem.menuItem.promotionPrice}
+                      </h5>
+                    </p>
+                  )}
+                </Col>
               </Form.Group>
               <Form.Group className="d-flex">
                 <Form.Label className="col-5">Quantity:</Form.Label>
@@ -151,18 +176,18 @@ const Cart = () => {
                   name="quantity"
                   value={eachCartItem.quantity}
                   onChange={(e) => handleChange(eachCartItem.cartItemId, e)}
-                  onBlur={saveToDB}
+                  onBlur={handleBlur}
                 />
               </Form.Group>
               <Form.Group className="d-flex">
                 <Form.Label className="col-5">Comment:</Form.Label>
                 <Form.Control
-                  type="text col-7"
+                  type="text"
                   placeholder="Enter comment:"
                   name="comment"
                   value={eachCartItem.comment}
                   onChange={(e) => handleChange(eachCartItem.cartItemId, e)}
-                  onBlur={saveToDB}
+                  onBlur={handleBlur}
                 />
               </Form.Group>
               <Form.Text className="text-muted text-center">

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
 import { logOut } from "../redux/actions/authActions";
-import axios from "axios";
+import { setCartItems } from "../redux/actions/userActions";
 import LocalStorageService from "../localStorage/LocalStorageService";
 import { useHistory } from "react-router-dom";
 
@@ -16,6 +16,7 @@ const LogoutModal = ({ show, handleClose }) => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    dispatch(setCartItems([]));
     dispatch(logOut());
     LocalStorageService.clearToken();
     LocalStorageService.clearRole();

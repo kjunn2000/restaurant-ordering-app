@@ -49,7 +49,7 @@ const Navigation = () => {
             <Link className="nav-link" to="/about-us">
               ABOUT US
             </Link>
-            <Link className="nav-link" to="/q-a">
+            <Link className="nav-link" to="/question">
               Q&A
             </Link>
             <Link className="nav-link" to="/register">
@@ -64,9 +64,6 @@ const Navigation = () => {
           <Nav className="ml-auto">
             <Link className="nav-link" to="/menu">
               MENU
-            </Link>
-            <Link className="nav-link" to="/history">
-              HISTORY
             </Link>
             <Link className="nav-link" to="/order">
               ORDER

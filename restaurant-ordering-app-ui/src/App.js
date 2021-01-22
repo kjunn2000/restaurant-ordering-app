@@ -13,6 +13,9 @@ import Dashboard from "./pages/Dashboard";
 import Promotion from "./pages/Promotion";
 import UpdateMenu from "./pages/UpdateMenu";
 import MenuDetails from "./pages/MenuDetails";
+import UpdateOrder from "./pages/UpdateOrder";
+import AddPromotion from "./pages/AddPromotion";
+import EditMenu from "./pages/EditMenu";
 import Navigation from "./components/Navigation.js";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
@@ -69,11 +72,6 @@ const App = () => {
                 />
                 <Route
                   exact
-                  path="/history"
-                  component={Auth(History, ROLE_CUSTOMER)}
-                />
-                <Route
-                  exact
                   path="/cart"
                   component={Auth(Cart, ROLE_CUSTOMER)}
                 />
@@ -82,6 +80,11 @@ const App = () => {
                   path="/dashboard"
                   component={Auth(Dashboard, ROLE_STAFF)}
                 />
+                {/* <Route
+                  exact
+                  path="/update-order"
+                  componenet={Auth(UpdateOrder, ROLE_STAFF)}
+                /> */}
                 <Route
                   exact
                   path="/add-menu"
@@ -94,8 +97,18 @@ const App = () => {
                 />
                 <Route
                   exact
+                  path="/edit-menu/:menuId"
+                  component={Auth(EditMenu, ROLE_ADMIN)}
+                />
+                <Route
+                  exact
                   path="/promotion"
                   component={Auth(Promotion, ROLE_ADMIN)}
+                />
+                <Route
+                  exact
+                  path="/add-promotion"
+                  component={Auth(AddPromotion, ROLE_ADMIN)}
                 />
               </Switch>
             </Col>

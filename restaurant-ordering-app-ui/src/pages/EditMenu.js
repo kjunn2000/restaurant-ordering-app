@@ -5,19 +5,22 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
+import { useParams, useHistory } from "react-router-dom";
+import { Image } from "cloudinary-react";
+import { Col, Row, Table } from "react-bootstrap";
 
-const AddMenu = () => {
+const EditMenu = () => {
+  const history = useHistory();
+  const { menuId } = useParams();
   const [menu, setMenu] = useState({
+    menuId: menuId,
     title: "",
     description: "",
     price: 0,
     foodType: "",
-    images: [],
   });
 
   const [foodTypes, setFoodTypes] = useState([]);
-
-  const [showAlert, setShowAlert] = useState(false);
 
   const foodTypeControl = useRef();
 
@@ -25,10 +28,12 @@ const AddMenu = () => {
 
   useEffect(async () => {
     try {
+      const res = await axios.get(`http://localhost:8080/api/menu/${menuId}`);
+      setMenu(res.data);
+      console.log(res.data);
       const response = await axios.get(
         "http://localhost:8080/api/menu/get-all-food-type"
       );
-      console.log(response.data);
       setFoodTypes(response.data);
     } catch (error) {
       console.log(error);
@@ -42,12 +47,6 @@ const AddMenu = () => {
       ...menu,
       [name]: value,
     });
-  };
-
-  const handleImageChange = (picture, urls) => {
-    console.log(picture);
-    console.log(urls);
-    setMenu({ ...menu, images: picture });
   };
 
   const uploadImageToCloud = async (allImages) => {
@@ -67,15 +66,38 @@ const AddMenu = () => {
   };
 
   const sendMenuDto = async () => {
-    const imageUrls = await uploadImageToCloud(menu.images);
+    const uploadedImage = imageUploader.current.state.pictures.filter(
+      (url) => !url.startsWith("data")
+    );
+    var toUploadFiles = [];
+
+    var exist = false;
+
+    imageUploader.current.state.files.forEach((file) => {
+      exist = false;
+      imageUploader.current.state.pictures.forEach((url) => {
+        if (url.includes(file.name)) {
+          exist = true;
+        }
+      });
+      if (exist) toUploadFiles.push(file);
+    });
+
+    console.log(uploadedImage);
+    console.log(toUploadFiles);
+
+    const urls = await uploadImageToCloud(toUploadFiles);
 
     let menuDto = {
       ...menu,
-      imageUrls,
+      imageUrls: [...uploadedImage, ...urls],
     };
+
+    console.log(menuDto);
+
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/menu/add-menu",
+        "http://localhost:8080/api/menu/update-menu",
         menuDto
       );
       console.log(response);
@@ -84,37 +106,31 @@ const AddMenu = () => {
     }
   };
 
-  const clearValue = () => {
-    setMenu({
-      title: "",
-      description: "",
-      price: 0,
-      images: [],
-    });
-    foodTypeControl.current.value = "";
-    imageUploader.current.clearPictures();
-    setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 5000);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     sendMenuDto();
-    clearValue();
+    history.push("/update-menu");
+    window.location.reload(false);
   };
 
   return (
     <div>
       <Card className={"border border-dark bg-dark text-white m-5"}>
-        <Card.Header className="h1 text-center">Create Menu</Card.Header>
+        <Card.Header className="h1 text-center">Edit Menu</Card.Header>
         <Form onSubmit={handleSubmit} className="p-5">
           <Card.Body>
             <Form.Group controlId="formBasicTitle">
-              <Alert variant="success" show={showAlert}>
-                Successful added a new food item !
-              </Alert>
+              <Form.Label>Menu Id</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                name="menuId"
+                readOnly={true}
+                className="bg-dark text-white"
+                value={menu.menuId}
+              />
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Menu Title</Form.Label>
               <Form.Control
                 required
@@ -161,11 +177,11 @@ const AddMenu = () => {
               <Form.Control
                 required
                 as="select"
-                multiple
                 className="bg-dark text-white"
                 onChange={handleChange}
                 name="foodType"
                 ref={foodTypeControl}
+                value={menu.foodType}
               >
                 {foodTypes.map((foodType) => (
                   <option value={foodType}>{foodType}</option>
@@ -177,14 +193,14 @@ const AddMenu = () => {
               <Form.Label>Menu Images</Form.Label>
               <ImageUploader
                 ref={imageUploader}
-                onChange={handleImageChange}
                 withPreview={true}
+                defaultImages={menu.imageUrls}
               />
             </Form.Group>
           </Card.Body>
           <Card.Footer style={{ textAlign: "right" }}>
             <Button variant="success" type="submit" className="">
-              Submit
+              Confirm Edit
             </Button>
           </Card.Footer>
         </Form>
@@ -193,4 +209,4 @@ const AddMenu = () => {
   );
 };
 
-export default AddMenu;
+export default EditMenu;

@@ -54,23 +54,5 @@ public class UserDetailsService implements org.springframework.security.core.use
         return user.orElse(null);
     }
 
-    public void addToCart(int menuId, int quantity,String comment){
-        Menu menu = menuService.findMenuById(menuId);
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        AppUser user = appUserRepository.findAppUserByUsername(username);
-        CartItem cartItem = new CartItem(UUID.randomUUID(),menu,quantity,comment);
-        cartItemRepository.save(cartItem);
-        user.getCart().add(cartItem) ;
-        appUserRepository.save(user);
-    }
-
-    public List<CartItem> getCart(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        AppUser user = appUserRepository.findAppUserByUsername(username);
-        System.out.println(user.getCart());
-        return user.getCart();
-
-    }
-
 
 }

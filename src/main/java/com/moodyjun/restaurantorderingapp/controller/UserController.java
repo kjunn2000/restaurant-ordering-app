@@ -27,10 +27,9 @@ public class UserController {
     }
 
     @PostMapping("/add-to-cart")
-    public ResponseEntity<String> addToCart(@RequestBody CartDto addToCartDto){
-        if(addToCartDto.getQuantity()==0) return new ResponseEntity<String>("Invalid quantity", HttpStatus.EXPECTATION_FAILED);
-        cartService.addToCart(addToCartDto.getMenuId(),addToCartDto.getQuantity(),addToCartDto.getComment());
-        return new ResponseEntity<String>( "Successful add to cart.", HttpStatus.OK);
+    public ResponseEntity<CartItem> addToCart(@RequestBody CartDto addToCartDto){
+        CartItem cartItem = cartService.addToCart(addToCartDto.getMenuId(), addToCartDto.getQuantity(), addToCartDto.getComment());
+        return new ResponseEntity<CartItem>( cartItem, HttpStatus.OK);
     }
 
     @GetMapping("/get-cart")

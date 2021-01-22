@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addCartItem } from "../redux/actions/userActions";
 import { Card, Button, Col, Row, Form, Alert } from "react-bootstrap";
 import { Image } from "cloudinary-react";
 import AliceCarousel from "react-alice-carousel";
@@ -14,6 +15,7 @@ const MenuDetails = (props) => {
   const role = useSelector((state) => state.auth.role);
   const [showAlert, setShowAlert] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const dispatch = useDispatch();
   const [cartItem, setCartItem] = useState({
     quantity: 1,
     comment: "N/A",
@@ -56,6 +58,7 @@ const MenuDetails = (props) => {
       .post("http://localhost:8080/api/user/add-to-cart", dto)
       .then((response) => {
         console.log(response);
+        dispatch(addCartItem(response.data));
         setShowSuccess(true);
         setTimeout(() => {
           setShowSuccess(false);
@@ -103,6 +106,15 @@ const MenuDetails = (props) => {
               <Card body className="menu-detail-card text-secondary p-3">
                 <Form>
                   <Card.Title className="font-bold text-dark bcartitem-bottom bcartitem-secondary pb-3 text-center">
+                    {data.promtionPrice == 0 ? (
+                      ""
+                    ) : (
+                      <Image
+                        height="50px"
+                        cloudName="kjunn2000"
+                        publicId="https://res.cloudinary.com/kjunn2000/image/upload/v1611300577/restaurant-ordering-app-cloud-image/specialoffer_e7dkzm.gif"
+                      />
+                    )}
                     {data.title}
                   </Card.Title>
                   <Row className="pb-3">
@@ -117,14 +129,19 @@ const MenuDetails = (props) => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Price: </Form.Label>
-                        <Form.Control
-                          className="text-right"
-                          readOnly={true}
-                          type="text"
-                          placeholder="price"
-                          name="price"
-                          value={"RM " + data.price}
-                        />
+                        <p className="text-right">
+                          {" "}
+                          {data.promotionPrice == 0 ? (
+                            <p>RM {data.price}</p>
+                          ) : (
+                            <p>
+                              <s>RM {data.price} </s>
+                              <h5 className="d-inline text-danger">
+                                RM {data.promotionPrice}
+                              </h5>
+                            </p>
+                          )}
+                        </p>
                       </Form.Group>
                       <Form.Group>
                         <Form.Label>Quantity:</Form.Label>

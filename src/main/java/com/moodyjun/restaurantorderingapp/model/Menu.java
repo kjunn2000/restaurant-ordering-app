@@ -1,15 +1,16 @@
 package com.moodyjun.restaurantorderingapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name="menu")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Menu {
@@ -20,8 +21,12 @@ public class Menu {
     private String title ;
     private String description ;
     private int price ;
+    private Integer promotionPrice;
     @Enumerated(EnumType.STRING)
     private FoodType foodType;
     @ElementCollection
-    private List<String> imageUrls ;
+    private List<String> imageUrls;
+    @JsonIgnore
+    @ManyToOne
+    private Promotion promotion;
 }

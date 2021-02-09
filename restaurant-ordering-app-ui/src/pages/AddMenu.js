@@ -4,6 +4,7 @@ import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 const AddMenu = () => {
@@ -106,89 +107,106 @@ const AddMenu = () => {
   };
 
   return (
-    <div>
-      <Card className={"border border-dark bg-dark text-white m-5"}>
-        <Card.Header className="h1 text-center">Create Menu</Card.Header>
-        <Form onSubmit={handleSubmit} className="p-5">
-          <Card.Body>
-            <Form.Group controlId="formBasicTitle">
-              <Alert variant="success" show={showAlert}>
-                Successful added a new food item !
-              </Alert>
-              <Form.Label>Menu Title</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter title"
-                name="title"
-                onChange={handleChange}
-                className="bg-dark text-white"
-                value={menu.title}
-              />
-            </Form.Group>
+    <div className="addMenu bg-light pt-5">
+      <div className="header m-0 pt-5">
+        <Row className="p-0 m-0 pb-5">
+          <Col className="col-12">
+            <h2 className="title text-center">Create New Menu</h2>
+            <h5
+              className="subTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              New Menu
+            </h5>
+          </Col>
+        </Row>
+      </div>
+      <div className="main p-5" style={{ backgroundColor: "#d3d3d3" }}>
+        <Card className={"border border-dark bg-dark text-white m-5"}>
+          <Form onSubmit={handleSubmit} className="p-5">
+            <Card.Body>
+              <Form.Group controlId="formBasicTitle">
+                <Alert variant="success" show={showAlert}>
+                  Successful added a new food item !
+                </Alert>
+                <Form.Label>Menu Title</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter title"
+                  name="title"
+                  onChange={handleChange}
+                  className="bg-dark text-white"
+                  value={menu.title}
+                />
+              </Form.Group>
 
-            <Form.Group controlId="formBasicDescription">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter description"
-                name="description"
-                onChange={handleChange}
-                className="bg-dark text-white"
-                value={menu.description}
-              />
-              <Form.Text className="text-danger">
-                ** Please indicate all the ingredients. **
-              </Form.Text>
-            </Form.Group>
+              <Form.Group controlId="formBasicDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter description"
+                  name="description"
+                  onChange={handleChange}
+                  className="bg-dark text-white"
+                  value={menu.description}
+                />
+                <Form.Text className="text-danger">
+                  ** Please indicate all the ingredients. **
+                </Form.Text>
+              </Form.Group>
 
-            <Form.Group controlId="formBasicPrice">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                required
-                type="number"
-                placeholder="Enter description"
-                onChange={handleChange}
-                name="price"
-                className="bg-dark text-white"
-                value={menu.price}
-              />
-            </Form.Group>
+              <Form.Group controlId="formBasicPrice">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  required
+                  type="number"
+                  placeholder="Enter description"
+                  onChange={handleChange}
+                  name="price"
+                  className="bg-dark text-white"
+                  value={menu.price}
+                />
+              </Form.Group>
 
-            <Form.Group controlId="formBasicFoodType">
-              <Form.Label>Food Types</Form.Label>
-              <Form.Control
-                required
-                as="select"
-                multiple
-                className="bg-dark text-white"
-                onChange={handleChange}
-                name="foodType"
-                ref={foodTypeControl}
-              >
-                {foodTypes.map((foodType) => (
-                  <option value={foodType}>{foodType}</option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+              <Form.Group controlId="formBasicFoodType">
+                <Form.Label>Food Types</Form.Label>
+                <Form.Control
+                  required
+                  as="select"
+                  multiple
+                  className="bg-dark text-white"
+                  onChange={handleChange}
+                  name="foodType"
+                  ref={foodTypeControl}
+                >
+                  {foodTypes.map((foodType) => (
+                    <option value={foodType}>{foodType}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="formBasicImages">
-              <Form.Label>Menu Images</Form.Label>
-              <ImageUploader
-                ref={imageUploader}
-                onChange={handleImageChange}
-                withPreview={true}
-              />
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer style={{ textAlign: "right" }}>
-            <Button variant="success" type="submit" className="">
-              Submit
-            </Button>
-          </Card.Footer>
-        </Form>
-      </Card>
+              <Form.Group controlId="formBasicImages">
+                <Form.Label>Menu Images</Form.Label>
+                <ImageUploader
+                  ref={imageUploader}
+                  onChange={handleImageChange}
+                  withPreview={true}
+                />
+              </Form.Group>
+            </Card.Body>
+            <Card.Footer style={{ textAlign: "right" }}>
+              <Button variant="success" type="submit" className="">
+                Submit
+              </Button>
+            </Card.Footer>
+          </Form>
+        </Card>
+      </div>
     </div>
   );
 };

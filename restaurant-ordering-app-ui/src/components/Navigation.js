@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -27,14 +27,30 @@ const Navigation = () => {
     setShowLogoutModal(true);
   };
 
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll());
+  // });
+
+  // const handleScroll = () => {
+  //   if (window.scrollY > 20) {
+  //     document.querySelector(".navbar").className = "navbar scroll";
+  //   } else {
+  //     document.querySelector(".navbar").className = "navbar";
+  //   }
+  // };
+
   return (
     <Navbar
-      className="border-bottom fixed-top"
-      bg="dark"
+      className="navbar fixed-top text-white"
+      style={{ height: "50px" }}
       variant="dark"
       expand="lg"
     >
-      <Navbar.Brand className="navName">Moody Cafe</Navbar.Brand>
+      <Navbar.Brand className="p-3">
+        <a href="/" className="navName" style={{ color: "white" }}>
+          MOODY Café
+        </a>
+      </Navbar.Brand>
 
       <Navbar.Toggle className="border-0" aria-controls="navbar-toggle" />
       <Navbar.Collapse id="navbar-toggle">
@@ -43,11 +59,11 @@ const Navigation = () => {
             <Link className="nav-link" to="/">
               HOME
             </Link>
-            <Link className="nav-link" to="/menu">
-              MENU
-            </Link>
             <Link className="nav-link" to="/about-us">
               ABOUT US
+            </Link>
+            <Link className="nav-link" to="/menu">
+              MENU
             </Link>
             <Link className="nav-link" to="/question">
               Q&A

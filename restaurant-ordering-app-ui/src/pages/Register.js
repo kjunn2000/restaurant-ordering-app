@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Card, Form, Button } from "react-bootstrap";
+import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setRole } from "../redux/actions/authActions";
@@ -69,65 +69,87 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <Card className={"border border-dark bg-dark text-white m-5"}>
-        <Card.Header className="h1 text-center">Register</Card.Header>
-        <Form onSubmit={handleSubmit} className="p-5">
-          <Card.Body>
-            <Form.Group controlId="formBasicTitle">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter username"
-                name="username"
-                onChange={handleChange}
-                className="bg-dark text-white"
-              />
-            </Form.Group>
+    <div className="register pt-5 bg-light">
+      <div className="header m-0 pb-5" style={{ paddingTop: "100px" }}>
+        <Row className="p-0 m-0">
+          <Col className="col-12">
+            <h2 className="title text-center">The Registration</h2>
+            <h5
+              className="subTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#6F4E37",
+              }}
+            >
+              Welcome to our family
+            </h5>
+          </Col>
+        </Row>
+      </div>
+      <div className="p-5" style={{backgroundColor:"#d3d3d3"}}>
+        <Card className={"card border border-dark text-white p-5"}>
+          <Form onSubmit={handleSubmit} className="form p-5">
+            <Card.Body>
+              <Form.Group controlId="formBasicTitle">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter username"
+                  name="username"
+                  onChange={handleChange}
+                  className="bg-dark text-white"
+                />
+              </Form.Group>
 
-            <Form.Group controlId="formBasicDescription">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                name="email"
-                onChange={handleChange}
-                className="bg-dark text-white"
-              />
-            </Form.Group>
+              <Form.Group controlId="formBasicDescription">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  name="email"
+                  onChange={handleChange}
+                  className="bg-dark text-white"
+                />
+              </Form.Group>
 
-            <Form.Group controlId="formBasicDescription">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                onChange={handleChange}
-                name="password"
-                className="bg-dark text-white"
-              />
-            </Form.Group>
+              <Form.Group controlId="formBasicDescription">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  onChange={handleChange}
+                  name="password"
+                  className="bg-dark text-white"
+                />
+              </Form.Group>
 
-            <Form.Group controlId="formBasicDescription">
-              <Form.Label>Confirmed Password</Form.Label>
-              <Form.Control
-                ref={confirmedPassword}
-                type="password"
-                placeholder="Retype password"
-                name="confirmedPassword"
-                className="bg-dark text-white"
-              />
-            </Form.Group>
-            <Form.Text className="text-danger" id="errMessage" ref={errMessage}>
-              ** Please provide the correct input. **
-            </Form.Text>
-          </Card.Body>
-          <Card.Footer style={{ textAlign: "right" }}>
-            <Button variant="success" type="submit" className="">
-              Register
-            </Button>
-          </Card.Footer>
-        </Form>
-      </Card>
+              <Form.Group controlId="formBasicDescription">
+                <Form.Label>Confirmed Password</Form.Label>
+                <Form.Control
+                  ref={confirmedPassword}
+                  type="password"
+                  placeholder="Retype password"
+                  name="confirmedPassword"
+                  className="bg-dark text-white"
+                />
+              </Form.Group>
+              <Form.Text
+                className="text-danger font-weight-bold"
+                id="errMessage"
+                ref={errMessage}
+                style={{ fontSize: "13pt" }}
+              >
+                ** Please provide the correct input. **
+              </Form.Text>
+            </Card.Body>
+            <Card.Footer style={{ textAlign: "right" }}>
+              <Button variant="success" type="submit" className="">
+                Register
+              </Button>
+            </Card.Footer>
+          </Form>
+        </Card>
+      </div>
     </div>
   );
 };

@@ -93,60 +93,76 @@ const UpdateMenu = () => {
   };
 
   return (
-    <div>
-      <Row>
-        <Col className="h1 text-center text-white py-5">Update Menu</Col>
-      </Row>
-      <Alert className="text-center" variant="danger" show={showAlert}>
-        *** Please log in to the system to add to cart. ***
-      </Alert>
-      <Alert className="text-center" variant="success" show={showSuccess}>
-        *** Successful added to the cart ***
-      </Alert>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="main">
-        <Row>
-          <Col sm={3}>
-            <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link eventKey="main">Main Food</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="sideDish">Side Dish</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="drink">Drink</Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
-          <Col sm={9}>
-            <Tab.Content>
-              <Tab.Pane eventKey="main">
-                <Container>
-                  <Row>
-                    {loading ? <h1>Loading...</h1> : renderMenu("MAIN")}
-                  </Row>
-                </Container>
-              </Tab.Pane>
-              <Tab.Pane eventKey="sideDish">
-                {" "}
-                <Container>
-                  <Row>
-                    {loading ? <h1>Loading...</h1> : renderMenu("SIDE_DISH")}
-                  </Row>
-                </Container>
-              </Tab.Pane>
-              <Tab.Pane eventKey="drink">
-                {" "}
-                <Container>
-                  <Row>
-                    {loading ? <h1>Loading...</h1> : renderMenu("DRINK")}
-                  </Row>
-                </Container>
-              </Tab.Pane>
-            </Tab.Content>
+    <div className="updateMenu pt-5 bg-light">
+      <div className="header m-0 pt-5">
+        <Row className="p-0 m-0 pb-5">
+          <Col className="col-12">
+            <h2 className="title text-center">Update Menu</h2>
+            <h5
+              className="subTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              Only Perfect
+            </h5>
           </Col>
         </Row>
-      </Tab.Container>
+      </div>
+
+      <div className="main p-5" style={{ backgroundColor: "#d3d3d3" }}>
+        <Alert className="text-center" variant="danger" show={showAlert}>
+          *** Please log in to the system to add to cart. ***
+        </Alert>
+        <Alert className="text-center" variant="success" show={showSuccess}>
+          *** Successful added to the cart ***
+        </Alert>
+        <Tab.Container id="left-tabs-example" defaultActiveKey="main">
+          <Row className="p-0 m-0">
+            <Col sm={3}>
+              <Nav variant="pills" className="flex-column">
+                <Nav.Item>
+                  <Nav.Link eventKey="main">Main Food</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="sideDish">Side Dish</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="drink">Drink</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Col>
+            <Col sm={9}>
+              <Tab.Content>
+                <Tab.Pane eventKey="main">
+                  <Container>
+                    <Row>
+                      {loading ? <h1>Loading...</h1> : renderMenu("MAIN")}
+                    </Row>
+                  </Container>
+                </Tab.Pane>
+                <Tab.Pane eventKey="sideDish">
+                  {" "}
+                  <Container>
+                    <Row>
+                      {loading ? <h1>Loading...</h1> : renderMenu("SIDE_DISH")}
+                    </Row>
+                  </Container>
+                </Tab.Pane>
+                <Tab.Pane eventKey="drink">
+                  {" "}
+                  <Container>
+                    <Row>
+                      {loading ? <h1>Loading...</h1> : renderMenu("DRINK")}
+                    </Row>
+                  </Container>
+                </Tab.Pane>
+              </Tab.Content>
+            </Col>
+          </Row>
+        </Tab.Container>
+      </div>
     </div>
   );
 };

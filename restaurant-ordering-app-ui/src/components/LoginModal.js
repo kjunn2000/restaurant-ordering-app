@@ -10,6 +10,7 @@ import LocalStorageService from "../localStorage/LocalStorageService";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ROLE_CUSTOMER } from "../auth/userRole";
+import { Row, Col } from "react-bootstrap";
 
 const LoginModal = ({ show, handleClose }) => {
   const history = useHistory();
@@ -57,51 +58,58 @@ const LoginModal = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Login</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {" "}
-        <Form>
-          <Form.Group controlId="formBasicUsername">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter username"
-              onChange={handleChange}
-              name="username"
-            />
-            <Form.Text className="text-muted">
-              If you forget your username or password please email us.
-              <br />
-              <b>moodycanteen@gmail.com</b>
-            </Form.Text>
-          </Form.Group>
+    <div className="loginModal">
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header style={{ alignItems: "center" }} closeButton>
+          <h3
+            className="header"
+            style={{ fontSize: "20pt", fontFamily: "serif" }}
+          >
+            Login To The MOODY
+          </h3>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          <Form>
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter username"
+                onChange={handleChange}
+                name="username"
+              />
+              <Form.Text className="text-muted">
+                If you forget your username or password please email us.
+                <br />
+                <b>moodycafe@gmail.com</b>
+              </Form.Text>
+            </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              onChange={handleChange}
-              name="password"
-            />
-          </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Remember Me" />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={handleSubmit}>
-          Log In
-        </Button>
-      </Modal.Footer>
-    </Modal>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                onChange={handleChange}
+                name="password"
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Remember Me" />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Log In
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 

@@ -194,8 +194,23 @@ const Order = () => {
   return loading ? (
     <h1 className="text-center text-white">Loading...</h1>
   ) : (
-    <div>
-      <h1 className="text-white text-center">Order</h1>
+    <div className="dashboard">
+      <div className="header m-0 pt-5">
+        <Row className="p-0 m-0 pb-5">
+          <Col className="col-12">
+            <h2 className="title text-center text-white">Update Menu</h2>
+            <h5
+              className="subTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              Only Perfect
+            </h5>
+          </Col>
+        </Row>
+      </div>
       <Tabs defaultActiveKey="pending" id="uncontrolled-tab-example">
         <Tab eventKey="pending" title="Pending">
           <Accordion defaultActiveKey="0">{renderOrders("PENDING")}</Accordion>

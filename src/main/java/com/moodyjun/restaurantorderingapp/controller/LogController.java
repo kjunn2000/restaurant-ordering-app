@@ -21,10 +21,13 @@ public class LogController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserDto userDto){
-       int result = userDetailsService.createAppUser(userDto.getUsername(),userDto.getPassword(),userDto.getEmail());
+       int result = userDetailsService.createAppUser(userDto.getUsername()
+               ,userDto.getPassword(),userDto.getEmail());
        if(result==1)
-        return new ResponseEntity<String>("Registered successfully", HttpStatus.OK);
-       else if (result==-1) return new ResponseEntity<String>("Username existed", HttpStatus.EXPECTATION_FAILED);
+        return new ResponseEntity<String>("Registered successfully"
+                , HttpStatus.OK);
+       else if (result==-1) return new ResponseEntity<String>("Username existed"
+               , HttpStatus.EXPECTATION_FAILED);
        return null;
     }
 

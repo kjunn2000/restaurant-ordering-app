@@ -6,10 +6,12 @@ import { Button, Tab, Tabs } from "react-bootstrap";
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
 import MyMarker from "../components/MyMaker";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
   const [menu, setMenu] = useState([]);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/menu/get-all-menu")
@@ -172,7 +174,7 @@ const Home = () => {
               >
                 OPENS 8:00 AM - 10:00 PM, EVERY DAY OF THE WEEK
               </h5>
-              <Button variant="success" className="text-white">
+              <Button variant="success" className="text-white" href="#location">
                 CONTACT US
               </Button>
             </div>
@@ -210,6 +212,7 @@ const Home = () => {
             height: "auto",
             padding: "15px",
             textAlign: "center",
+            backgroundColor: "rgba(211, 211, 211, 0.3)",
           }}
         >
           <Col>
@@ -256,7 +259,11 @@ const Home = () => {
               >
                 JOIN US ONLY IF YOU WISH TO BECOME A MOODY PERSOM
               </h5>
-              <Button variant="success" className="text-white">
+              <Button
+                variant="success"
+                className="text-white"
+                onClick={() => history.push("/register")}
+              >
                 JOIN US
               </Button>
             </div>
@@ -273,7 +280,7 @@ const Home = () => {
         </Row>
       </div>
 
-      <div className="location m-0">
+      <div id="location" className="location m-0">
         <Row className="p-0 m-0" style={{ height: "20vh" }}>
           <Col className="col-12">
             <h2 className="title text-center">The Location | Time</h2>

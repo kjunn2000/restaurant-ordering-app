@@ -39,13 +39,16 @@ public class UserDetailsService implements org.springframework.security.core.use
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser appUser = appUserRepository.findAppUserByUsername(username);
         if(appUser==null) return null;
-        return new MyUserDetails(appUser.getUsername(),appUser.getPassword(),appUser.getRole().getGrantedAuthorities());
+        return new MyUserDetails(appUser.getUsername(),appUser.getPassword()
+                ,appUser.getRole().getGrantedAuthorities());
     }
 
     public int createAppUser(String username, String password, String email){
         UserDetails userDetails = loadUserByUsername(username);
         if(userDetails!=null) return -1;
-        AppUser appUser = appUserRepository.save(new AppUser(UUID.randomUUID(), username, passwordEncoder.encode(password), email, UserRole.CUSTOMER,new ArrayList(),new ArrayList()));
+        AppUser appUser = appUserRepository.save(new AppUser(UUID.randomUUID()
+                , username, passwordEncoder.encode(password), email
+                , UserRole.CUSTOMER,new ArrayList(),new ArrayList()));
         return 1;
     }
 

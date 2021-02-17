@@ -13,8 +13,8 @@ const Footer = () => {
   const history = useHistory();
 
   return (
-    <div>
-      <Row className="footer text-white  m-0 text-center">
+    <div className="footer">
+      <Row className="main text-white  m-0 text-center">
         <Col>
           <h4 className="title">ABOUT US</h4>
           <p className="des text-justify">
@@ -83,7 +83,10 @@ const Footer = () => {
       </Row>
       <Row className="p-0 m-0">
         <Col>
-          <p className="text-white text-center" style={{fontWeight:"lighter"}}>
+          <p
+            className="text-white text-center"
+            style={{ fontWeight: "lighter" }}
+          >
             © 2021.Moody Jun.All rights reserved. Designed with by Kai Jun
           </p>
         </Col>

@@ -36,21 +36,29 @@ public class MyUsernameAndPasswordAuthenticationFilter extends UsernamePasswordA
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request
+            , HttpServletResponse response) throws AuthenticationException {
 
         try {
-            UsernameAndPasswordRequest usernameAndPasswordRequest = new ObjectMapper().readValue(request.getInputStream(), UsernameAndPasswordRequest.class);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usernameAndPasswordRequest.getUsername(), usernameAndPasswordRequest.getPassword());
-            Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+            UsernameAndPasswordRequest usernameAndPasswordRequest
+                    = new ObjectMapper().readValue(request.getInputStream()
+                    , UsernameAndPasswordRequest.class);
+            UsernamePasswordAuthenticationToken authenticationToken
+                    = new UsernamePasswordAuthenticationToken(usernameAndPasswordRequest.getUsername()
+                    , usernameAndPasswordRequest.getPassword());
+            Authentication authenticate
+                    = authenticationManager.authenticate(authenticationToken);
             return authenticate;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
         return null;
     }
-
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request
+            , HttpServletResponse response
+            , FilterChain chain
+            , Authentication authResult) throws IOException, ServletException {
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
@@ -59,7 +67,8 @@ public class MyUsernameAndPasswordAuthenticationFilter extends UsernamePasswordA
                 .signWith(secretKey)
                 .compact();
 
-        response.addHeader(jwtConfig.getAuthorizationHeader(),jwtConfig.getTokenPrefix()+token);
+        response.addHeader(jwtConfig.getAuthorizationHeader()
+                ,jwtConfig.getTokenPrefix()+token);
         String role = Objects.requireNonNull(authResult.getAuthorities()
                 .stream()
                 .filter(user -> user.getAuthority().startsWith("ROLE_"))

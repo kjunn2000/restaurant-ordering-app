@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -18,6 +18,8 @@ const LoginModal = ({ show, handleClose }) => {
   const localStorageService = LocalStorageService.getService();
 
   const dispatch = useDispatch();
+
+  const errMessage = useRef();
 
   const [data, setData] = useState({ username: "", password: "" });
 
@@ -46,6 +48,9 @@ const LoginModal = ({ show, handleClose }) => {
       }
     } catch (error) {
       console.log(error);
+      errMessage.current.textContent =
+        "** Username/Password combination is not valid. ** ";
+      return;
     }
 
     handleClose();
@@ -95,9 +100,15 @@ const LoginModal = ({ show, handleClose }) => {
                 name="password"
               />
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Remember Me" />
-            </Form.Group>
+
+            <Form.Text
+              className="text-danger font-weight-bold"
+              id="errMessage"
+              ref={errMessage}
+              style={{ fontSize: "10pt" }}
+            >
+              ** Please provide your name and password. **
+            </Form.Text>
           </Form>
         </Modal.Body>
         <Modal.Footer>

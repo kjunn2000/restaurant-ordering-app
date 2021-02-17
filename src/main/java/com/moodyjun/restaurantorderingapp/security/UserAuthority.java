@@ -2,8 +2,12 @@ package com.moodyjun.restaurantorderingapp.security;
 
 public enum UserAuthority {
 
-    VIEW_MENU("view_menu"),PLACE_ORDER("place_order"),UPDATE_ORDER("update_order"),
-    ADD_FOOD_ITEM("add_food_item"),UPDATE_FOOD_ITEM("update_food_item"),DELETE_FOOD_ITEM("delete_food_item");
+    VIEW_MENU("view_menu"),
+    PLACE_ORDER("place_order"),
+    ADD_TO_CART("add_to_cart"),
+    UPDATE_ORDER("update_order"),
+    MANAGE_FOOD_ITEM("manage_food_item"),
+    MANAGE_PROMOTION("manage_promotion");
 
     private final String authority;
 

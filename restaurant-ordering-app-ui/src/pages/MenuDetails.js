@@ -40,6 +40,7 @@ const MenuDetails = (props) => {
   };
 
   const handleSubmit = (e) => {
+    window.scrollTo(0, 0);
     e.preventDefault();
     console.log(role);
     if (role !== "ROLE_CUSTOMER") {
@@ -70,8 +71,28 @@ const MenuDetails = (props) => {
   return loading ? (
     <div className="h1 text-center text-white">Loading...</div>
   ) : (
-    <div className="p-4">
-      <Card variant="dark" bg="dark" className="text-white font-bold">
+    <div className="menuDetail bg-light pt-5">
+      <div className="header m-0 pt-5">
+        <Row className="p-0 m-0 ">
+          <Col className="col-12">
+            <h2 className="headerTitle text-center">{data.title}</h2>
+            <h5
+              className="headerSubTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              {data.foodType}
+            </h5>
+          </Col>
+        </Row>
+      </div>
+      <Card
+        variant="dark"
+        style={{ backgroundColor: "#d3d3d3" }}
+        className="text-white font-bold"
+      >
         <Alert className="text-center" variant="danger" show={showAlert}>
           *** Please log in to the system to add to cart. ***
         </Alert>
@@ -79,9 +100,6 @@ const MenuDetails = (props) => {
           *** Successful added to the cart ***
         </Alert>
         <Card.Body>
-          <Card.Title className="bcartitem-bottom bcartitem-secondary pb-3 text-center">
-            {data.foodType}
-          </Card.Title>
           <Row className="p-4">
             <div className="col-md-8 col-xs-12 p-0">
               <AliceCarousel

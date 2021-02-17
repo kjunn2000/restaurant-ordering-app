@@ -28,7 +28,8 @@ public class UserController {
 
     @PostMapping("/add-to-cart")
     public ResponseEntity<CartItem> addToCart(@RequestBody CartDto addToCartDto){
-        CartItem cartItem = cartService.addToCart(addToCartDto.getMenuId(), addToCartDto.getQuantity(), addToCartDto.getComment());
+        CartItem cartItem = cartService.addToCart(addToCartDto.getMenuId(),
+                addToCartDto.getQuantity(), addToCartDto.getComment());
         return new ResponseEntity<CartItem>( cartItem, HttpStatus.OK);
     }
 

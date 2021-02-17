@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setRole } from "../redux/actions/authActions";
 import axios from "axios";
 import LocalStorageService from "../localStorage/LocalStorageService";
+import { faHandScissors } from "@fortawesome/free-solid-svg-icons";
 
 const Register = () => {
   const localStorageService = LocalStorageService.getService();
@@ -39,31 +40,32 @@ const Register = () => {
       return;
     }
     errMessage.current.textContent = "";
-    console.log(user);
     try {
       const res = await axios.post(
         "http://localhost:8080/api/log/register",
         user
       );
-      console.log(res);
+      if (res.data == "Username existed") {
+        errMessage.current.textContent = "** Username already registered ** ";
+        return;
+      }
       const data = {
         username: user.username,
         password: user.password,
       };
-      console.log(data);
 
       try {
         const response = await axios.post("http://localhost:8080/login", data);
         localStorageService.setToken(response.headers);
-        dispatch(setRole(response.headers.role));
-        localStorageService.setRole(response.headers.role);
+        const role = response.data.role;
+        dispatch(setRole(role));
+        localStorageService.setRole(role);
         history.push("/menu");
       } catch (error) {
         console.log(error);
       }
     } catch (error) {
-      console.log(error);
-      errMessage.current.textContent = "** Username already existed ** ";
+      errMessage.current.textContent = "** Username already registered ** ";
       return;
     }
   };
@@ -73,9 +75,9 @@ const Register = () => {
       <div className="header m-0 pb-5" style={{ paddingTop: "100px" }}>
         <Row className="p-0 m-0">
           <Col className="col-12">
-            <h2 className="title text-center">The Registration</h2>
+            <h2 className="headerTitle text-center">The Registration</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#6F4E37",
@@ -86,7 +88,7 @@ const Register = () => {
           </Col>
         </Row>
       </div>
-      <div className="p-5" style={{backgroundColor:"#d3d3d3"}}>
+      <div className="p-5" style={{ backgroundColor: "#d3d3d3" }}>
         <Card className={"card border border-dark text-white p-5"}>
           <Form onSubmit={handleSubmit} className="form p-5">
             <Card.Body>
@@ -98,6 +100,7 @@ const Register = () => {
                   name="username"
                   onChange={handleChange}
                   className="bg-dark text-white"
+                  required
                 />
               </Form.Group>
 
@@ -109,6 +112,7 @@ const Register = () => {
                   name="email"
                   onChange={handleChange}
                   className="bg-dark text-white"
+                  required
                 />
               </Form.Group>
 
@@ -120,6 +124,7 @@ const Register = () => {
                   onChange={handleChange}
                   name="password"
                   className="bg-dark text-white"
+                  required
                 />
               </Form.Group>
 
@@ -131,6 +136,7 @@ const Register = () => {
                   placeholder="Retype password"
                   name="confirmedPassword"
                   className="bg-dark text-white"
+                  required
                 />
               </Form.Group>
               <Form.Text

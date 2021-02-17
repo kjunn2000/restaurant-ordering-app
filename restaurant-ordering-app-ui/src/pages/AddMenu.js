@@ -69,7 +69,6 @@ const AddMenu = () => {
 
   const sendMenuDto = async () => {
     const imageUrls = await uploadImageToCloud(menu.images);
-
     let menuDto = {
       ...menu,
       imageUrls,
@@ -79,7 +78,6 @@ const AddMenu = () => {
         "http://localhost:8080/api/menu/add-menu",
         menuDto
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -98,6 +96,7 @@ const AddMenu = () => {
     setTimeout(() => {
       setShowAlert(false);
     }, 5000);
+    window.scrollTo(0, 0);
   };
 
   const handleSubmit = async (e) => {
@@ -107,13 +106,13 @@ const AddMenu = () => {
   };
 
   return (
-    <div className="addMenu bg-light pt-5">
+    <div className="addMenu bg-dark text-white pt-5">
       <div className="header m-0 pt-5">
         <Row className="p-0 m-0 pb-5">
           <Col className="col-12">
-            <h2 className="title text-center">Create New Menu</h2>
+            <h2 className="headerTitle text-center">Create New Menu</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",
@@ -124,8 +123,14 @@ const AddMenu = () => {
           </Col>
         </Row>
       </div>
-      <div className="main p-5" style={{ backgroundColor: "#d3d3d3" }}>
-        <Card className={"border border-dark bg-dark text-white m-5"}>
+      <div
+        className="main p-5"
+        style={{ backgroundColor: "rgba(22, 22, 22, 0.57)" }}
+      >
+        <Card
+          // style={{ backgroundColor:  }}
+          className={"border border-dark bg-dark text-white m-5"}
+        >
           <Form onSubmit={handleSubmit} className="p-5">
             <Card.Body>
               <Form.Group controlId="formBasicTitle">

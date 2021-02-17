@@ -33,17 +33,17 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
         String authorization = httpServletRequest.getHeader(jwtConfig.getAuthorizationHeader());
         System.out.println(authorization);
         if(authorization == null || (!authorization.startsWith(jwtConfig.getTokenPrefix()))){
             filterChain.doFilter(httpServletRequest,httpServletResponse);
             return ;
         }
-
         String token = authorization.replace(jwtConfig.getTokenPrefix(), "");
-
         try{
             Jws<Claims> claimsJws = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
@@ -55,7 +55,8 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             Set<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.get("authority")))
                     .collect(Collectors.toSet());
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(subject,null,grantedAuthorities);
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+                    = new UsernamePasswordAuthenticationToken(subject,null,grantedAuthorities);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }catch(JwtException jwtException){
             throw new IllegalStateException(String.format("Token cannot be trust %s",token));

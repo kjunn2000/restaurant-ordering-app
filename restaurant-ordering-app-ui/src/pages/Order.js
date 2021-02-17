@@ -114,7 +114,7 @@ const Order = () => {
       (each) => each.orderStatus === orderStatus
     );
     return filterOrder.length == 0 ? (
-      <h2 className="text-white text-center">No order available</h2>
+      <h1 className="headerTitle text-center p-5">No order available.</h1>
     ) : (
       filterOrder.map((each) => (
         <>
@@ -132,7 +132,10 @@ const Order = () => {
                   </Badge>
 
                   <Badge variant="primary">
-                    {each.orderTime[3]}:{each.orderTime[4]}
+                    {each.orderTime[3]}:{" "}
+                    {each.orderTime[4] < 10
+                      ? "0" + each.orderTime[4].toString()
+                      : each.orderTime[4]}
                   </Badge>
                 </Row>
               </Col>
@@ -141,7 +144,7 @@ const Order = () => {
               {renderOrderItems(each.orderItemList)}
             </Accordion.Collapse>
           </Card>
-          <Card className="p-3 mb-3">
+          <Card className="p-3 mb-3" style={{ backgroundColor: "#d3d3d3" }}>
             <Row>
               <Col className="col-md-8 "></Col>
 
@@ -194,24 +197,28 @@ const Order = () => {
   return loading ? (
     <h1 className="text-center text-white">Loading...</h1>
   ) : (
-    <div className="dashboard">
+    <div className="dashboard pt-5 bg-light">
       <div className="header m-0 pt-5">
-        <Row className="p-0 m-0 pb-5">
+        <Row className="p-0 m-0">
           <Col className="col-12">
-            <h2 className="title text-center text-white">Update Menu</h2>
+            <h2 className="headerTitle text-center">Order</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",
               }}
             >
-              Only Perfect
+              Order Tracking
             </h5>
           </Col>
         </Row>
       </div>
-      <Tabs defaultActiveKey="pending" id="uncontrolled-tab-example">
+      <Tabs
+        defaultActiveKey="pending"
+        id="uncontrolled-tab-example"
+        style={{ backgroundColor: "#d3d3d3" }}
+      >
         <Tab eventKey="pending" title="Pending">
           <Accordion defaultActiveKey="0">{renderOrders("PENDING")}</Accordion>
         </Tab>

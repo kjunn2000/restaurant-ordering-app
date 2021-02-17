@@ -34,7 +34,10 @@ public class CartService {
 
     public CartItem addToCart(int menuId, int quantity, String comment){
         Menu menu = menuService.findMenuById(menuId);
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (String) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
         AppUser user = appUserRepository.findAppUserByUsername(username);
         CartItem cartItem = new CartItem(UUID.randomUUID(),menu,quantity,comment);
         cartItemRepository.save(cartItem);

@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 import static com.moodyjun.restaurantorderingapp.security.UserAuthority.*;
 
 public enum UserRole {
-    CUSTOMER(Sets.newHashSet(VIEW_MENU,PLACE_ORDER)),
+    CUSTOMER(Sets.newHashSet(VIEW_MENU,PLACE_ORDER,ADD_TO_CART)),
     STAFF(Sets.newHashSet(UPDATE_ORDER)),
-    ADMIN(Sets.newHashSet(ADD_FOOD_ITEM,UPDATE_FOOD_ITEM,DELETE_FOOD_ITEM));
+    ADMIN(Sets.newHashSet(MANAGE_PROMOTION,MANAGE_FOOD_ITEM));
 
     private Set<UserAuthority> authorities;
 

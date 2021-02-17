@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
-import { Table } from "react-bootstrap";
+import { Table, Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 const AddPromotion = () => {
@@ -64,9 +64,26 @@ const AddPromotion = () => {
   };
 
   return (
-    <div>
+    <div className="addPromotion pt-5">
+      <div className="header m-0 pt-5">
+        <Row className="p-0 m-0 ">
+          <Col className="col-12">
+            <h2 className="headerTitle text-center text-white">
+              Add Promotion
+            </h2>
+            <h5
+              className="headerSubTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              Need Offer
+            </h5>
+          </Col>
+        </Row>
+      </div>
       <Card className={"border border-dark bg-dark text-white m-5"}>
-        <Card.Header className="h1 text-center">Create Promotion</Card.Header>
         <Form onSubmit={handleSubmit} className="p-5">
           <Card.Body>
             <Form.Group>

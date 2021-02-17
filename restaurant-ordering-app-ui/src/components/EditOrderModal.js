@@ -125,6 +125,9 @@ const EditOrderModal = ({ eachOrder, handleClose, show }) => {
 
   return (
     <Modal show={show} onHide={handleClose} className="p-0 m-0" centered>
+      <Modal.Header closeButton>
+        <h3>Edit Order</h3>
+      </Modal.Header>
       <Modal.Body className="p-0 m-0">
         <Form className="p-0 m-0">
           <Form.Group className="d-flex p-0 m-0" controlId="formBasicUsername">

@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
 import { Image } from "cloudinary-react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Spinner } from "react-bootstrap";
 
 const EditMenu = () => {
   const history = useHistory();
@@ -26,6 +26,8 @@ const EditMenu = () => {
 
   const imageUploader = useRef();
 
+  const spinner = useRef();
+
   useEffect(async () => {
     try {
       const res = await axios.get(`http://localhost:8080/api/menu/${menuId}`);
@@ -35,6 +37,7 @@ const EditMenu = () => {
         "http://localhost:8080/api/menu/get-all-food-type"
       );
       setFoodTypes(response.data);
+      spinner.current.hidden = true;
     } catch (error) {
       console.log(error);
     }
@@ -70,9 +73,7 @@ const EditMenu = () => {
       (url) => !url.startsWith("data")
     );
     var toUploadFiles = [];
-
     var exist = false;
-
     imageUploader.current.state.files.forEach((file) => {
       exist = false;
       imageUploader.current.state.pictures.forEach((url) => {
@@ -82,19 +83,12 @@ const EditMenu = () => {
       });
       if (exist) toUploadFiles.push(file);
     });
-
-    console.log(uploadedImage);
-    console.log(toUploadFiles);
-
     const urls = await uploadImageToCloud(toUploadFiles);
-
     let menuDto = {
       ...menu,
       imageUrls: [...uploadedImage, ...urls],
     };
-
-    console.log(menuDto);
-
+    console.log(urls);
     try {
       const response = await axios.post(
         "http://localhost:8080/api/menu/update-menu",
@@ -108,15 +102,32 @@ const EditMenu = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    sendMenuDto();
+    console.log(spinner.current);
+    spinner.current.hidden = false;
+    await sendMenuDto();
     history.push("/update-menu");
     window.location.reload(false);
   };
 
   return (
     <div>
+      <div className="header m-0 pt-5">
+        <Row className="p-0 m-0 pt-5">
+          <Col className="col-12">
+            <h2 className="headerTitle text-center text-white">Edit Menu</h2>
+            <h5
+              className="headerSubTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              Make It Better
+            </h5>
+          </Col>
+        </Row>
+      </div>
       <Card className={"border border-dark bg-dark text-white m-5"}>
-        <Card.Header className="h1 text-center">Edit Menu</Card.Header>
         <Form onSubmit={handleSubmit} className="p-5">
           <Card.Body>
             <Form.Group controlId="formBasicTitle">
@@ -200,6 +211,14 @@ const EditMenu = () => {
           </Card.Body>
           <Card.Footer style={{ textAlign: "right" }}>
             <Button variant="success" type="submit" className="">
+              <Spinner
+                ref={spinner}
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
               Confirm Edit
             </Button>
           </Card.Footer>

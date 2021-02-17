@@ -29,8 +29,6 @@ public class MenuController {
 
     @PostMapping("/add-menu")
     public Menu addMenu(@RequestBody Menu menuDto) {
-        System.out.println("I am in.");
-        System.out.println(menuDto);
         menuService.addMenu(menuDto);
         return menuDto;
     }
@@ -38,7 +36,8 @@ public class MenuController {
     @GetMapping("/get-all-menu")
     public MenuListResponseDto getAllMenu(){
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new MenuListResponseDto(menuService.getAllMenu(),promotionService.getAllPromotion());
+        return new MenuListResponseDto(menuService.getAllMenu(),
+                promotionService.getAllPromotion());
     }
 
     @GetMapping("/get-all-food-type")

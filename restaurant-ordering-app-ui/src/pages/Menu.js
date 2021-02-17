@@ -29,11 +29,9 @@ const Menu = () => {
       .then((response) => {
         const menu = response.data.menuList;
         const promotionList = response.data.promotionList;
-
         setMenu(menu);
         setPromotionList(promotionList);
-        console.log(menu);
-        console.log(promotionList);
+
         const data = {
           mainMenu: menu.filter((each) => each.foodType == "MAIN"),
           sideDishes: menu.filter((each) => each.foodType == "SIDE_DISH"),
@@ -54,6 +52,7 @@ const Menu = () => {
       setTimeout(() => {
         setShowAlert(false);
       }, 5000);
+      return;
     }
     const dto = {
       menuId,
@@ -72,6 +71,7 @@ const Menu = () => {
         }, 5000);
       })
       .catch((error) => console.log(error));
+    window.scrollTo(0, 0);
   };
 
   const renderMenu = (type) => {
@@ -90,6 +90,7 @@ const Menu = () => {
             height="190px"
             cloudName="kjunn2000"
             publicId={eachMenu.imageUrls[0]}
+            className="rounded"
           />
 
           <Card.Body>
@@ -146,9 +147,9 @@ const Menu = () => {
       <div className="header m-0 pt-5">
         <Row className="p-0 m-0 pb-5">
           <Col className="col-12">
-            <h2 className="title text-center">MOODY Café | Menu</h2>
+            <h2 className="headerTitle text-center">MOODY Café | Menu</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",
@@ -161,10 +162,20 @@ const Menu = () => {
       </div>
 
       <div className="main p-5" style={{ backgroundColor: "#d3d3d3" }}>
-        <Alert className="text-center" variant="danger" show={showAlert}>
+        <Alert
+          id="error"
+          className="text-center"
+          variant="danger"
+          show={showAlert}
+        >
           *** Please log in to the system to add to cart. ***
         </Alert>
-        <Alert className="text-center" variant="success" show={showSuccess}>
+        <Alert
+          id="success"
+          className="text-center"
+          variant="success"
+          show={showSuccess}
+        >
           *** Successful added to the cart ***
         </Alert>
         <Tab.Container id="left-tabs-example" defaultActiveKey="main">

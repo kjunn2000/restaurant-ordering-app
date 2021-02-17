@@ -57,24 +57,24 @@ const Promotion = () => {
   };
 
   return (
-    <div className="promotion pt-5 bg-light">
+    <div className="promotion pt-5 bg-dark">
       <div className="header m-0 pt-5">
         <Row className="p-0 m-0 pb-5">
           <Col className="col-12">
-            <h2 className="title text-center">Update Menu</h2>
+            <h2 className="headerTitle text-center text-white">Promotion</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",
               }}
             >
-              Only Perfect
+              Need Offer
             </h5>
           </Col>
         </Row>
       </div>
-      <Card className="bg-dark">
+      <Card style={{ backgroundColor: "rgba(22, 22, 22, 0.57)" }}>
         <Card.Body>
           <Card.Title>
             <Button
@@ -87,7 +87,9 @@ const Promotion = () => {
           </Card.Title>
 
           {promotionList.length == 0 ? (
-            <h4 className="text-white">No promotion available.</h4>
+            <h1 className="headerTitle text-center p-5 text-white">
+              No promotion available.
+            </h1>
           ) : (
             <Table striped bordered hover variant="dark">
               <thead>

@@ -41,7 +41,8 @@ public class MenuService {
         toSave.setDescription(menu.getDescription());
         toSave.setFoodType(menu.getFoodType());
         if(toSave.getPromotion()!=null){
-            toSave.setPromotionPrice(toSave.getPrice()*(100-toSave.getPromotion().getDiscountPercentage())/100);
+            toSave.setPromotionPrice(toSave.getPrice()
+                    *(100-toSave.getPromotion().getDiscountPercentage())/100);
         }
         return menuRepository.save(toSave);
     }

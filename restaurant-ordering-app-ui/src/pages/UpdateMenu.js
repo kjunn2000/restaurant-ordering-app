@@ -28,16 +28,13 @@ const UpdateMenu = () => {
       .get("http://localhost:8080/api/menu/get-all-menu")
       .then((response) => {
         const menu = response.data.menuList;
-        console.log(menu);
         setMenu(menu);
         setPromotionList(response.data.promotionList);
-        console.log(response.data.promotionList);
         const data = {
           mainMenu: menu.filter((each) => each.foodType == "MAIN"),
           sideDishes: menu.filter((each) => each.foodType == "SIDE_DISH"),
           drinks: menu.filter((each) => each.foodType == "DRINK"),
         };
-        console.log(data);
         dispatch(setAllMenu(data));
         setLoading(false);
       })
@@ -49,9 +46,14 @@ const UpdateMenu = () => {
   };
 
   const handleDelete = (menuId) => {
-    axios.delete(`http://localhost:8080/menu/${menuId}`);
+    axios.delete(`http://localhost:8080/api/menu/${menuId}`);
     const newMenu = menu.filter((each) => each.menuId !== menuId);
     setMenu(newMenu);
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 5000);
+    window.scrollTo(0, 0);
   };
 
   const renderMenu = (type) => {
@@ -64,14 +66,12 @@ const UpdateMenu = () => {
             cloudName="kjunn2000"
             publicId={eachMenu.imageUrls[0]}
           />
-
           <Card.Body>
             <Card.Title className="border-bottom border-secondary pb-3 text-center">
               {eachMenu.title}
             </Card.Title>
             <Card.Text>{eachMenu.description}</Card.Text>
             <Card.Text>RM {eachMenu.price}</Card.Text>
-
             <ButtonGroup className="float-right" aria-label="Basic example">
               <Button
                 variant="success"
@@ -93,13 +93,13 @@ const UpdateMenu = () => {
   };
 
   return (
-    <div className="updateMenu pt-5 bg-light">
-      <div className="header m-0 pt-5">
+    <div className="updateMenu pt-5 bg-dark">
+      <div className="header text-white m-0 pt-5">
         <Row className="p-0 m-0 pb-5">
           <Col className="col-12">
-            <h2 className="title text-center">Update Menu</h2>
+            <h2 className="headerTitle text-center">Update Menu</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",
@@ -111,12 +111,12 @@ const UpdateMenu = () => {
         </Row>
       </div>
 
-      <div className="main p-5" style={{ backgroundColor: "#d3d3d3" }}>
-        <Alert className="text-center" variant="danger" show={showAlert}>
-          *** Please log in to the system to add to cart. ***
-        </Alert>
+      <div
+        className="main p-5"
+        style={{ backgroundColor: "rgba(22, 22, 22, 0.57)" }}
+      >
         <Alert className="text-center" variant="success" show={showSuccess}>
-          *** Successful added to the cart ***
+          *** Successful deleted from the list ***
         </Alert>
         <Tab.Container id="left-tabs-example" defaultActiveKey="main">
           <Row className="p-0 m-0">

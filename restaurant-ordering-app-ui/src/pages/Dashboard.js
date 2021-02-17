@@ -152,7 +152,9 @@ const Dashboard = () => {
       (each) => each.orderStatus === orderStatus
     );
     return filterOrder.length == 0 ? (
-      <h2 className="text-white text-center">No order available</h2>
+      <h1 className="headerTitle text-center p-5 text-white">
+        No order available.
+      </h1>
     ) : (
       <>
         {showEditModal && (
@@ -179,7 +181,10 @@ const Dashboard = () => {
                     </Badge>
 
                     <Badge variant="primary">
-                      {each.orderTime[3]}:{each.orderTime[4]}
+                      {each.orderTime[3]}:{" "}
+                      {each.orderTime[4] < 10
+                        ? "0" + each.orderTime[4].toString()
+                        : each.orderTime[4]}
                     </Badge>
                   </Row>
                 </Col>
@@ -300,9 +305,9 @@ const Dashboard = () => {
       <div className="header m-0 pt-5">
         <Row className="p-0 m-0 pt-5">
           <Col className="col-12">
-            <h2 className="title text-center text-white">DASHBOARD</h2>
+            <h2 className="headerTitle text-center text-white">DASHBOARD</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",

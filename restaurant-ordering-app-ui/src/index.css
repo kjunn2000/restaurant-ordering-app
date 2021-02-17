@@ -28,7 +28,7 @@
 
 /* Nav */
 .navbar {
-  background-color: rgba(8, 8, 8, 0.3);
+  background-color: rgba(8, 8, 8, 0.7);
   color: white;
 }
 
@@ -48,8 +48,22 @@
 
 /* Footer */
 
-.footer {
-  background-color: #3c1321;
+.footer .main {
+  background-image: linear-gradient(
+    to right top,
+    #677d83,
+    #62767c,
+    #5d6e75,
+    #58676e,
+    #536067,
+    #4d575e,
+    #464e54,
+    #40454b,
+    #36383d,
+    #2b2c2f,
+    #212122,
+    #161616
+  );
   padding: 100px;
 }
 
@@ -62,7 +76,7 @@
   border-bottom: 0.5px solid #80604d;
 }
 
-.footer .des {
+.footer p {
   size: 12pt;
   color: gainsboro;
   font-family: "Playfair Display", serif;
@@ -115,26 +129,13 @@
 }
 
 /* pubilc */
-.aboutUs .title,
-.question .title,
-.register .title,
-.menu .title,
-.addMenu .title,
-.updateMenu .title,
-.promotion .title,
-.dashboard .title {
+
+.headerTitle {
   font-family: "Playfair Display", serif;
 }
 
-.aboutUs .subTitle,
-.question .subTitle,
-.register .subTitle,
-.menu .subTitle,
-.addMenu .subTitle,
-.updateMenu .subTitle,
-.promotion .subTitle,
-.dashboard .subTitle {
-  font-size: 25pt;
+.headerSubTitle {
+  font-size: 20pt;
   font-weight: lighter;
   color: #80604d;
   font-family: "Great Vibes", cursive;
@@ -407,8 +408,8 @@
   background-size: cover;
   filter: grayscale(85%);
 }
+
 .register .form {
-  /* This will make it stack on top of the ::before */
   position: relative;
 }
 

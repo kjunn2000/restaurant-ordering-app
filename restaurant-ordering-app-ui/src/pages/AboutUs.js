@@ -7,48 +7,70 @@ import { Container, Button, Carousel } from "react-bootstrap";
 import Video from "../asset/coffee.mp4";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { from "@fortawesome/free-solid-svg-icons";
+import {} from "@fortawesome/free-solid-svg-icons";
 
 const AboutUs = () => {
   const history = useHistory();
 
   const team = [
     {
-      name: "Tam Kai Jun",
-      title: "Job",
-      des: "Desc",
+      name: "Jeremy Snyder",
+      title: "Chief Executive Officer (CEO)",
+      des:
+        "Co-founded Moody Cafe in 2010. His experience in a wide variety of business sectors always brings a fresh perspective to the table.",
       imgUrl:
         "https://res.cloudinary.com/kjunn2000/image/upload/v1612079072/restaurant-ordering-app-cloud-image/iandavis.0_emzmao.jpg",
     },
     {
-      name: "Tam Kai Jun",
-      title: "Job",
-      des: "Desc",
+      name: "Shar Carpenter",
+      title: "Principal & Managing Partner",
+      des:
+        "The principal of Moody Cafe. Responsible for all the things related to management and business strategic",
       imgUrl:
-        "https://res.cloudinary.com/kjunn2000/image/upload/v1612079072/restaurant-ordering-app-cloud-image/iandavis.0_emzmao.jpg",
+        "https://res.cloudinary.com/kjunn2000/image/upload/v1613522284/restaurant-ordering-app-cloud-image/20201127ppBlackWomen2LOC-1-1606701433_hhumxa.jpg",
     },
     {
-      name: "Tam Kai Jun",
-      title: "Job",
-      des: "Desc",
+      name: "Amanda Hempel",
+      title: "Digital & Market Project Manager",
+      des:
+        "Marketing Manager in the Moody Cafe. He has a very wide and precise thinking for the future of Moody Cafe. ",
       imgUrl:
-        "https://res.cloudinary.com/kjunn2000/image/upload/v1612079072/restaurant-ordering-app-cloud-image/iandavis.0_emzmao.jpg",
-    },
-    {
-      name: "Tam Kai Jun",
-      title: "Job",
-      des: "Desc",
-      imgUrl:
-        "https://res.cloudinary.com/kjunn2000/image/upload/v1612079072/restaurant-ordering-app-cloud-image/iandavis.0_emzmao.jpg",
+        "https://res.cloudinary.com/kjunn2000/image/upload/v1613522122/restaurant-ordering-app-cloud-image/women-in-business_thumb_1536x1536_ro0mrh.jpg",
     },
   ];
+
+  const servicesUrl = [
+    "https://res.cloudinary.com/kjunn2000/image/upload/v1613520409/restaurant-ordering-app-cloud-image/WhatsApp_Image_2021-02-16_at_8.45.15_PM_clguie.jpg",
+    "https://res.cloudinary.com/kjunn2000/image/upload/v1613520409/restaurant-ordering-app-cloud-image/WhatsApp_Image_2021-02-16_at_9.03.53_PM_if9t8u.jpg",
+    "https://res.cloudinary.com/kjunn2000/image/upload/v1613520409/restaurant-ordering-app-cloud-image/WhatsApp_Image_2021-02-16_at_8.45.16_PM_psdhjq.jpg",
+  ];
+
+  const renderServices = () => {
+    return servicesUrl.map((url) => (
+      <Carousel.Item interval={3000} className="text-center">
+        <Image
+          className="mw-100 mh-100 p-0 m-0"
+          style={{
+            filter: "grayscale(0.4)",
+            marginLeft: "auto",
+            marginRight: "auto",
+            height: "500px",
+          }}
+          cloudName="kjunn2000"
+          publicId={url}
+        />
+      </Carousel.Item>
+    ));
+  };
+
   const renderTeam = () => {
     return team.map((each) => (
       <Col className="p-0 m-0">
         <Card style={{ width: "18rem", margin: "auto" }}>
           <Card.Img variant="top" src={each.imgUrl} />
           <Card.Body className="text-center">
-            <Card.Title>{each.title}</Card.Title>
+            <Card.Title>{each.name}</Card.Title>
+            <Card.Title className="text-muted">{each.title}</Card.Title>
             <Card.Text>{each.des}</Card.Text>
             <Row>
               <Col>
@@ -76,9 +98,9 @@ const AboutUs = () => {
       <div className="header m-0 pt-5">
         <Row className="p-0 m-0 pb-5">
           <Col className="col-12">
-            <h2 className="title text-center">MOODY Café</h2>
+            <h2 className="headerTitle text-center">MOODY Café</h2>
             <h5
-              className="subTitle text-center"
+              className="headerSubTitle text-center"
               style={{
                 fontWeight: "lighter",
                 color: "#80604D",
@@ -200,9 +222,9 @@ const AboutUs = () => {
           <Col className="p-5">
             <Row className="p-0 m-0 pb-5">
               <Col className="col-12">
-                <h2 className="title text-center">The Story</h2>
+                <h2 className="headerTitle text-center">The Story</h2>
                 <h5
-                  className="subTitle text-center"
+                  className="headerSubTitle text-center"
                   style={{
                     fontWeight: "lighter",
                     color: "#80604D",
@@ -249,123 +271,28 @@ const AboutUs = () => {
 
       <div
         className="service pt-5  pb-5"
-        style={{ backgroundColor: "#d3d3d3" }}
+        style={{ backgroundColor: "rgba(211, 211, 211, 0.2)" }}
       >
         <Col className="col-12 pt-5 pb-5">
-          <h1 className="title text-center">The Services</h1>
+          <h2 className="headerTitle text-center">The Services</h2>
           <h5
-            className="subTitle text-center"
+            className="headerSubTitle text-center"
             style={{
               fontWeight: "lighter",
-              color: "#d3ae87",
             }}
           >
             We provide anything you need
           </h5>
         </Col>
-        <Carousel>
-          <Carousel.Item className="text-center">
-            <Image
-              className="mw-100 mh-100 p-0 m-0"
-              style={{
-                filter: "grayscale(0.4)",
-                marginLeft: "auto",
-                marginRight: "auto",
-                height: "500px",
-              }}
-              cloudName="kjunn2000"
-              publicId="https://res.cloudinary.com/kjunn2000/image/upload/v1612079106/restaurant-ordering-app-cloud-image/Chef_Andre_Rush_xzinxz.jpg"
-            />
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-              <div className="blinkingBtn">
-                <a
-                  onClick={() => history.push("/menu")}
-                  style={{ color: "aqua" }}
-                >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  The Menu
-                </a>
-              </div>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image
-              className="mw-100 mh-100 p-0 m-0"
-              style={{
-                filter: "grayscale(0.4)",
-                marginLeft: "auto",
-                marginRight: "auto",
-                height: "500px",
-              }}
-              cloudName="kjunn2000"
-              publicId="https://res.cloudinary.com/kjunn2000/image/upload/v1612079106/restaurant-ordering-app-cloud-image/Chef_Andre_Rush_xzinxz.jpg"
-            />
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-              <div className="blinkingBtn">
-                <a
-                  onClick={() => history.push("/menu")}
-                  style={{ color: "aqua" }}
-                >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  The Menu
-                </a>
-              </div>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image
-              className="mw-100 mh-100 p-0 m-0"
-              style={{
-                filter: "grayscale(0.4)",
-                marginLeft: "auto",
-                marginRight: "auto",
-                height: "500px",
-              }}
-              cloudName="kjunn2000"
-              publicId="https://res.cloudinary.com/kjunn2000/image/upload/v1612079106/restaurant-ordering-app-cloud-image/Chef_Andre_Rush_xzinxz.jpg"
-            />
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-              <div className="blinkingBtn">
-                <a
-                  onClick={() => history.push("/menu")}
-                  style={{ color: "aqua" }}
-                >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  The Menu
-                </a>
-              </div>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
+        <Carousel>{renderServices()}</Carousel>
       </div>
       <div className="outTeam pt-5 pb-5">
         <div className="m-0 pt-5">
           <Row className="p-0 m-0 pb-5">
             <Col className="col-12">
-              <h2 className="title text-center">The Team</h2>
+              <h2 className="headerTitle text-center">The Team</h2>
               <h5
-                className="subTitle text-center"
+                className="headerSubTitle text-center"
                 style={{
                   fontWeight: "lighter",
                 }}

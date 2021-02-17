@@ -211,53 +211,62 @@ const Cart = () => {
     </Card>
   ));
 
-  return loading ? (
-    <h1>Loading...</h1>
-  ) : cart.length == 0 ? (
-    <>
-      <Alert className="text-center" variant="success" show={showSuccess}>
-        *** Successful added to the cart ***
-      </Alert>
-      <h1 className="h1 text-white text-center pt-5 B">
-        No food item in the cart{" "}
-      </h1>
-    </>
-  ) : (
-    <Container>
-      <Row>
-        <Col className="h1 text-center text-white py-5">Cart</Col>
-      </Row>
-      {renderCart}
-
-      <Card className="p-3 mb-3">
-        <Row>
-          <Col className="col-md-4 "></Col>
-
-          <Col className="col-md-3"></Col>
-          <Col className="col-md-4">
-            <Form>
-              <Col>
-                <Form.Group className="d-flex">
-                  <Form.Label className="col-5">Total Price: </Form.Label>
-                  <Form.Control
-                    className="text-right col-7"
-                    readOnly={true}
-                    type="number"
-                    name="price"
-                    value={totalPrice}
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Button onClick={handleSubmit} className="float-right">
-                    Place Order
-                  </Button>
-                </Form.Group>
-              </Col>
-            </Form>
+  return (
+    <div className="pt-5 bg-light">
+      <div className="header m-0 pt-5 ">
+        <Row className="p-0 m-0">
+          <Col className="col-12">
+            <h2 className="headerTitle text-center">Cart</h2>
+            <h5
+              className="headerSubTitle text-center"
+              style={{
+                fontWeight: "lighter",
+                color: "#80604D",
+              }}
+            >
+              Purchase Me
+            </h5>
           </Col>
         </Row>
-      </Card>
-    </Container>
+      </div>
+      {loading ? (
+        <h1 className="headerTitle text-center">Loading...</h1>
+      ) : cart.length == 0 ? (
+        <h1 className="headerTitle text-center p-5">No item in the cart.</h1>
+      ) : (
+        <>
+          <div className="p-4">{renderCart}</div>
+          <Card className="p-3 mb-3" style={{ backgroundColor: "#d3d3d3" }}>
+            <Row>
+              <Col className="col-md-4 "></Col>
+
+              <Col className="col-md-3"></Col>
+              <Col className="col-md-4">
+                <Form>
+                  <Col>
+                    <Form.Group className="d-flex">
+                      <Form.Label className="col-5">Total Price: </Form.Label>
+                      <Form.Control
+                        className="text-right col-7"
+                        readOnly={true}
+                        type="number"
+                        name="price"
+                        value={totalPrice}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Button onClick={handleSubmit} className="float-right">
+                        Place Order
+                      </Button>
+                    </Form.Group>
+                  </Col>
+                </Form>
+              </Col>
+            </Row>
+          </Card>
+        </>
+      )}
+    </div>
   );
 };
 

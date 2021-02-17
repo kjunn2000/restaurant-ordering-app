@@ -46,10 +46,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .addFilter(new MyUsernameAndPasswordAuthenticationFilter(authenticationManager(),jwtConfig,secretKey))
-                .addFilterAfter(new JwtTokenVerifier(jwtConfig,secretKey),MyUsernameAndPasswordAuthenticationFilter.class)
+                .addFilter(new MyUsernameAndPasswordAuthenticationFilter(authenticationManager()
+                        ,jwtConfig,secretKey))
+                .addFilterAfter(new JwtTokenVerifier(jwtConfig,secretKey)
+                        ,MyUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/api/log/create-user","/api/menu/add-menu").hasRole("ADMIN")
+                .antMatchers("/api/log/create-user"
+                        , "/api/menu/add-menu"
+                        ,"/promotion/**").hasRole("ADMIN")
+                .antMatchers("/api/order/update-order-status/**").hasRole("STAFF")
+                .antMatchers("/api/user/add-to-cart"
+                        , "api/user/update-cart"
+                        , "api/order/place-order").hasRole("CUSTOMER")
                 .antMatchers("/api/menu/**").permitAll()
                 .antMatchers("/login","/api/log/register").permitAll()
                 .anyRequest().authenticated()

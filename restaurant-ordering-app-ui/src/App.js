@@ -36,7 +36,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <AnimatedCursor
+        {/* <AnimatedCursor
           style={{ zIndex: "5" }}
           innerSize={8}
           outerSize={8}
@@ -44,7 +44,7 @@ const App = () => {
           outerAlpha={0.2}
           innerScale={0.7}
           outerScale={5}
-        />
+        /> */}
         <Navigation />
         <Switch>
           <Route exact path="/" component={Auth(Home, ROLE_GUEST)} />
